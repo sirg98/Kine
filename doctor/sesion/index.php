@@ -1,5 +1,5 @@
 <?php
-include 'components/db.php';
+include '../../components/db.php';
 
 // Inicializar variables
 $paciente_id = '';
@@ -9,8 +9,8 @@ $apartados = [];
 $mostrar_apartados = false;
 
 // Obtener todos los nombres y apellidos de pacientes para el autocompletado
-$query = "SELECT nombre, apellidos FROM pacientes";
-$result = mysqli_query($mysqli, $query);
+$query = "SELECT nombre, apellidos FROM usuarios";
+$result = mysqli_query($conn, $query);
 $nombres_pacientes = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $nombres_pacientes[] = $row['nombre'] . ' ' . $row['apellidos'];
@@ -19,8 +19,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 // Si se envía el formulario para verificar el paciente
 if (isset($_POST['verificar_paciente'])) {
     $paciente_nombre_completo = $_POST['paciente'];
-    $query = "SELECT id, nombre, apellidos FROM pacientes WHERE CONCAT(nombre, ' ', apellidos) = '" . mysqli_real_escape_string($mysqli, $paciente_nombre_completo) . "' LIMIT 1";
-    $result = mysqli_query($mysqli, $query);
+    $query = "SELECT id, nombre, apellidos FROM usuarios WHERE CONCAT(nombre, ' ', apellidos) = '" . mysqli_real_escape_string($conn, $paciente_nombre_completo) . "' LIMIT 1";
+    $result = mysqli_query($conn, $query);
 
     if ($row = mysqli_fetch_assoc($result)) {
         $paciente_id = $row['id'];
@@ -155,7 +155,7 @@ if (isset($_POST['verificar_paciente'])) {
             border-radius: 4px;
         }
         textarea {
-            width: 100%;
+            width: 99%;
             height: 80px;
             margin-top: 10px;
             padding: 10px;
