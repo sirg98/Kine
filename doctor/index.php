@@ -46,7 +46,7 @@ $nombre = $_SESSION['nombre'];
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url('../img/fondo.jpg') no-repeat center center fixed; 
+            background: url('/assets/img/fondo.jpg') no-repeat center center fixed; 
             background-size: cover;
             color: var(--text-light);
             margin: 0;

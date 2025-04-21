@@ -3,15 +3,7 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$servername = "localhost";
-$username = "root";
-$password = "rootroot";
-$dbname = "kine";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-if (!$conn) {
-    die("Error de conexión: " . mysqli_connect_error());
-}
+include '../components/db.php';
 
 $email = trim($_REQUEST['email']);
 $pass = trim($_REQUEST['contraseña']);
@@ -33,13 +25,13 @@ if ($row = mysqli_fetch_assoc($result)) {
         // Redirección según el tipo de usuario
         switch ($row['tipo']) {
             case 'admin':
-                header("Location: ./admin/index.php");
+                header("Location: /admin/index.php");
                 exit();
             case 'paciente':
-                header("Location: ./paciente/index.php");
+                header("Location: /paciente/index.php");
                 exit();
             case 'doctor':
-                header("Location: ./doctor/index.php");
+                header("Location: /doctor/index.php");
                 exit();
             default:
                 die("Error: Tipo de usuario no reconocido.");

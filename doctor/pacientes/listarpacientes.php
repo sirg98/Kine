@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "../../components/db.php";
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['id'])) {

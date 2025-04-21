@@ -1,13 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "rootroot";
-$dbname = "kine";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-if (!$conn) {
-    die("Connection failed " . mysqli_connect_error());
-}
+include 'components/db.php';
 
 $user = trim(htmlspecialchars($_REQUEST['nombre'] ?? ''));
 $ape = trim(htmlspecialchars($_REQUEST['apellido'] ?? ''));

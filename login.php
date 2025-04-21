@@ -1,161 +1,89 @@
+<?php
+session_start();
+include_once 'components/db.php';
+
+$error_message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email'] ?? '');
+    $pass = trim($_POST['contraseña'] ?? '');
+    $email = mysqli_real_escape_string($conn, $email);
+    $sql = "SELECT * FROM usuarios WHERE email = '$email'";
+    $result = mysqli_query($conn, $sql);
+    if ($row = mysqli_fetch_assoc($result)) {
+        if (password_verify($pass, $row['contraseña'])) {
+            $_SESSION['nombre'] = $row['nombre'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['tipo'] = $row['tipo'];
+            $_SESSION['id'] = $row['id'];
+            switch ($row['tipo']) {
+                case 'admin': header("Location: admin/index.php"); exit();
+                case 'paciente': header("Location: paciente/index.php"); exit();
+                case 'doctor': header("Location: doctor/index.php"); exit();
+                default: die("Error: Tipo de usuario no reconocido.");
+            }
+        } else {
+            $error_message = "Contraseña incorrecta.";
+        }
+    } else {
+        $error_message = "Usuario no encontrado.";
+    }
+    mysqli_close($conn);
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="icon" type="image/jpeg" href="img/favicon.jpg">
-
+    <title>Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/root.css">
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: url('./img/fondo.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #FFFFFF;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* Dark overlay for background */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);  /* Slightly darker overlay */
-            z-index: 1;
-        }
-
-        .content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-            animation-delay: 0.3s;
-        }
-        
-        form {
-            background-color: rgba(29, 29, 29, 0.9);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-            text-align: center;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-            animation-delay: 0.5s;
-        }
-
-        input[type="text"], 
-        input[type="password"] {
-            width: 100%;
-            padding: 10px 12px;
-            margin-bottom: 20px;
-            border: 1px solid #444;
-            border-radius: 5px;
-            background-color: #2D2D2D;
-            color: #FFFFFF;
-            font-size: 1rem;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-        }
-
-        input[type="text"] { animation-delay: 0.7s; }
-        input[type="password"] { animation-delay: 0.8s; }
-
-        input[type="text"]:focus, 
-        input[type="password"]:focus {
-            outline: none;
-            border-color: #2a5329;
-            box-shadow: 0 0 5px rgba(106, 13, 173, 0.5);
-        }
-
-        input[type="submit"] {
-            background-color: #2a5329; 
-            color: #FFFFFF;
-            border: none;
-            padding: 12px;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 5px;
-            width: 100%;
-            transition: background-color 0.3s, transform 0.2s;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-            animation-delay: 1.0s;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #53a252;
-            transform: scale(1.05);
-        }
-
-        .main-button {
-            background-color: #2a5329;
-            color: #fff;
-            font-size: 1.2rem;
-            text-align: center;
-            border: none;
-            padding: 12px;
-            cursor: pointer;
-            width: 100%;
-            max-width: 400px;
-            margin-top: 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            display: inline-block;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-            animation-delay: 1.1s;
-        }
-
-        .main-button:hover {
-            background-color: #53a252;
-        }
-    </style>
+    body {
+        background: url('assets/img/fondo.jpg') center/cover no-repeat fixed !important;
+        color: #f7f6ef !important;
+        min-height: 100vh;
+        position: relative;
+    }
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(24,26,27,0.5);
+        z-index: 0;
+    }
+    .login-main { position: relative; z-index: 2; }
+    .login-card { background: #23272b; border-radius: 1.5rem; box-shadow: 0 2px 16px 0 #0005; color: #f7f6ef; }
+    .form-control, .form-label { color: #f7f6ef !important; background: #23272b !important; border-color: #444 !important; }
+    .form-control:focus { background: #23272b !important; color: #fff !important; border-color: var(--color-green-light); }
+    .btn-custom { background: var(--color-green)!important; color: #fff!important; border:none; }
+    .btn-custom:hover { background: var(--color-green-light)!important; }
+    footer {position: relative; z-index: 1; padding: 1rem;text-align: center;
+    }
+</style>
 </head>
 <body>
-    <div class="content">
-        <form action="login2.php" method="post">
-            <h2>Iniciar sesión</h2>
-            <input type="text" name="email" id="email" placeholder="Correo Electrónico" required>
-
-            <input type="password" name="contraseña" id="contraseña" placeholder="Contraseña" required>
-    
-            <input type="submit" value="Login">
-        </form>
-    
-        <a href="index.php" class="main-button">Volver al inicio</a>
-    </div>
+<?php include 'partials/navbar.php'; ?>
+<main class="container d-flex flex-column justify-content-center align-items-center min-vh-100 login-main" style="max-width:480px;">
+  <div class="login-card w-100 p-4 mt-5 mb-4">
+    <h2 class="text-center mb-4">Iniciar Sesión</h2>
+    <?php if ($error_message): ?>
+      <div class="alert alert-danger text-center py-2 mb-3"> <?php echo $error_message; ?> </div>
+    <?php endif; ?>
+    <form method="POST" action="auth/login.php">
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input type="email" class="form-control" id="email" name="email" required autofocus>
+      </div>
+      <div class="mb-3">
+        <label for="contraseña" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+      </div>
+      <button type="submit" class="btn btn-custom w-100 py-2">Entrar</button>
+    </form>
+  </div>
+</main>
+<?php include 'partials/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
