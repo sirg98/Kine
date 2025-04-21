@@ -1,0 +1,13 @@
+:root {
+  --color-green: #2a5329;
+  --color-green-light: #53a252;
+  --color-green-pastel: #C6DABF;
+  --color-blue: #2B2D42;
+  --color-blue-light: #6B6F9E;
+  --color-dark: rgba(35,39,43,0.92);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+}
