@@ -26,20 +26,18 @@ function guardarOrden($orden, $orden_path) {
     file_put_contents($orden_path, json_encode(array_values($orden), JSON_PRETTY_PRINT));
 }
 
-// Crear nueva carpeta
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nueva_carpeta'])) {
     $nombre = preg_replace('/[^a-zA-Z0-9_-]/', '_', $_POST['nueva_carpeta']);
     $ruta = $base_dir . $nombre;
     if (!is_dir($ruta)) {
         mkdir($ruta, 0777, true);
-        $orden = getCarpetasOrdenadas($base_dir, $orden_path);
-        $orden[] = $nombre;
-        guardarOrden($orden, $orden_path);
         $msg = "Carpeta '$nombre' creada.";
     } else {
         $msg = "Ya existe esa carpeta.";
     }
 }
+
+
 
 // Renombrar carpeta
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['renombrar_carpeta'])) {
@@ -111,12 +109,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['apunte'])) {
 $orden_carpetas = getCarpetasOrdenadas($base_dir, $orden_path);
 // Eliminar archivo
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_archivo'])) {
-    $archivo_a_eliminar = $_POST['eliminar_archivo'];
+    $archivo_relativo = $_POST['eliminar_archivo'];
+    $archivo_a_eliminar = __DIR__ . '/' . $archivo_relativo;
+    
     if (file_exists($archivo_a_eliminar)) {
         unlink($archivo_a_eliminar);
         $msg = 'Archivo eliminado correctamente.';
     } else {
         $msg = 'Archivo no encontrado.';
+    }
+}
+// Eliminar carpeta
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_carpeta'])) {
+    $carpeta = basename($_POST['eliminar_carpeta']);
+    $ruta = $base_dir . $carpeta;
+
+    if (is_dir($ruta)) {
+        array_map('unlink', glob("$ruta/*")); // Elimina archivos
+        rmdir($ruta); // Elimina la carpeta
+
+        // Actualizar orden
+        $orden = getCarpetasOrdenadas($base_dir, $orden_path);
+        $orden = array_values(array_filter($orden, fn($c) => $c !== $carpeta));
+        guardarOrden($orden, $orden_path);
+
+        $msg = "Carpeta eliminada correctamente.";
+    } else {
+        $msg = "La carpeta no existe.";
     }
 }
 
@@ -238,6 +257,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_archivo'])) 
                         <button class="btn btn-sm btn-light" title="Bajar carpeta">↓</button>
                     </form>
                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalRenombrar_<?php echo $nombre_carpeta; ?>">Renombrar</button>
+                    <form method="POST" class="d-inline" onsubmit="return confirm('¿Eliminar esta carpeta?');">
+                        <input type="hidden" name="eliminar_carpeta" value="<?php echo htmlspecialchars($nombre_carpeta); ?>">
+                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar carpeta" onclick="setTimeout(() => location.reload(), 100);">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -276,6 +301,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_archivo'])) 
                             <button class="btn btn-link text-danger p-0 border-0" data-bs-toggle="modal" data-bs-target="#modalPdf_<?php echo md5($url); ?>">
                                 <i class="bi bi-file-earmark-pdf" style="font-size:3rem;"></i>
                             </button>
+                            <!-- Modal para previsualizar PDF -->
+                            <div class="modal fade" id="modalPdf_<?php echo md5($url); ?>" tabindex="-1">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content bg-dark text-light">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"><?php echo htmlspecialchars($basename); ?></h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body p-0">
+                                    <embed src="<?php echo $url; ?>" type="application/pdf" width="100%" style="min-height:80vh;">
+                                </div>
+                                </div>
+                            </div>
+                            </div>
                             <!-- Enlace al archivo PDF -->
                             <div class="small text-break">
                                 <a href="<?php echo $url; ?>" target="_blank"><?php echo htmlspecialchars($basename); ?></a>
@@ -367,6 +406,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_archivo'])) 
         </form>
     </div>
     </div> 
+    
 <script>
 document.querySelector('input[name="apunte"]').addEventListener('change', function () {
     const archivo = this.files[0];
