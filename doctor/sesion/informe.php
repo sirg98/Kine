@@ -1,5 +1,6 @@
 <?php
-include 'components/db.php';
+session_start();
+include '../../components/db.php';
 
 echo "<pre>";
 echo "=== REQUEST ===\n";
@@ -16,8 +17,8 @@ if ($paciente_id && !empty($notas)) {
     $contenido_completo = '';
     foreach ($notas as $apartado => $contenido) {
         // Limpiar los datos
-        $apartado = mysqli_real_escape_string($mysqli, $apartado);
-        $contenido = mysqli_real_escape_string($mysqli, $contenido);
+        $apartado = mysqli_real_escape_string($conn, $apartado);
+        $contenido = mysqli_real_escape_string($conn, $contenido);
 
         // Formato: "Apartado: Nota"
         $contenido_completo .= "$apartado: $contenido; ";
@@ -27,13 +28,13 @@ if ($paciente_id && !empty($notas)) {
     $contenido_completo = rtrim($contenido_completo, "\t");
 
     // Insertar todas las notas concatenadas en la base de datos
-    $sqlInsert = "INSERT INTO notas (paciente_id, doctor_id, contenido) VALUES ('$paciente_id', '$doctor_id', '$contenido_completo')";
-    $result = mysqli_query($mysqli, $sqlInsert);
+    $sqlInsert = "INSERT INTO informes (paciente_id, doctor_id, contenido) VALUES ('$paciente_id', '$doctor_id', '$contenido_completo')";
+    $result = mysqli_query($conn, $sqlInsert);
 
     if ($result) {
         echo "Notas guardadas correctamente.";
     } else {
-        echo "Error al guardar las notas: " . mysqli_error($mysqli);
+        echo "Error al guardar las notas: " . mysqli_error($conn);
     }
 } else {
     echo "Error: No se enviaron datos válidos.";
