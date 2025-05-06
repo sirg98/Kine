@@ -56,49 +56,39 @@
 </header>
 
 <script>
-  // Función para verificar si el modo oscuro está activo
   function isDarkMode() {
     return document.documentElement.classList.contains('dark');
   }
 
-  // Función para aplicar el modo oscuro
   function applyDarkMode(isDark) {
-    console.log('Aplicando modo oscuro:', isDark);
     if (isDark) {
       document.documentElement.classList.add('dark');
-      // Actualizar iconos para modo oscuro
       sun.classList.add('translate-y-full', 'opacity-0');
       sun.classList.remove('opacity-100');
       moon.classList.remove('-translate-y-full', 'opacity-0');
       moon.classList.add('opacity-100');
     } else {
       document.documentElement.classList.remove('dark');
-      // Actualizar iconos para modo claro
       sun.classList.remove('translate-y-full', 'opacity-0');
       sun.classList.add('opacity-100');
       moon.classList.add('-translate-y-full', 'opacity-0');
       moon.classList.remove('opacity-100');
     }
-    console.log('Clase dark presente:', isDarkMode());
   }
 
   const btn = document.getElementById('toggleIcon');
   const sun = document.getElementById('iconSun');
   const moon = document.getElementById('iconMoon');
 
-  // Verificar el estado inicial
-  console.log('Estado inicial - Modo oscuro:', isDarkMode());
-
   btn.addEventListener('click', () => {
-    console.log('Botón clickeado');
     const newDarkMode = !isDarkMode();
     applyDarkMode(newDarkMode);
     localStorage.setItem('darkMode', newDarkMode);
   });
 
-  // Verificar preferencia guardada al cargar
-  const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-  console.log('Preferencia guardada:', savedDarkMode);
-  applyDarkMode(savedDarkMode);
+  // Solo aplicar el modo cuando todo esté cargado
+  window.addEventListener('load', () => {
+    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+    applyDarkMode(savedDarkMode);
+  });
 </script>
-

@@ -44,6 +44,30 @@ switch ($url) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KineticCare - Bienestar Holístico</title>
+    <script>
+    (function(){
+        let shouldUseDark = false;
+
+        const savedPreference = localStorage.getItem('darkMode');
+
+        if (savedPreference === 'true') {
+            shouldUseDark = true;
+        } else if (savedPreference === 'false') {
+            shouldUseDark = false;
+        } else {
+            // No hay preferencia guardada, usar la del sistema operativo
+            shouldUseDark = window.matchMedia &&
+                            window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+
+        if (shouldUseDark) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    })();
+</script>
+
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="tailwind-colors.css" rel="stylesheet">
 </head>
@@ -61,12 +85,5 @@ switch ($url) {
 
     </main>
     <?php include 'partials/footer.php'; ?>
-
-    <script>
-    // Verificar la preferencia guardada al cargar la página
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.documentElement.classList.add('dark');
-    }
-    </script>
 </body>
 </html> 
