@@ -2,6 +2,12 @@
   error_reporting(E_ALL);
   ini_set('display_errors', 1);
 ?>
+<script>
+  // Prevent flash of light mode
+  if (localStorage.getItem('darkMode') === 'true') {
+    document.documentElement.classList.add('dark');
+  }
+</script>
 <header class="shadow-sm transition-colors duration-200">
   <div class="container mx-auto flex items-center justify-between py-6 px-6">
     <div class="flex items-center space-x-3">
@@ -9,10 +15,10 @@
       <span class="font-bold text-2xl text-main">KineticCare</span>
     </div>
     <nav class="hidden md:flex space-x-8">
-      <a href="/inicio" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Inicio</a>
-      <a href="/servicios" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Servicios</a>
-      <a href="/nosotros" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Sobre Nosotros</a>
-      <a href="/cita" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Cita</a>
+      <a href="inicio" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Inicio</a>
+      <a href="servicios" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Servicios</a>
+      <a href="nosotros" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Sobre Nosotros</a>
+      <a href="contacto" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Contactanos</a>
     </nav>
     <div class="flex items-center space-x-4">
       <button id="toggleIcon" class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
@@ -43,13 +49,13 @@
         </div>
       </button>
       <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] == 'paciente'): ?>
-        <a href="/paciente" class="hidden md:inline-block px-5 py-2 btn-blue rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Paciente</a>
-        <a href="/logout" class="hidden md:inline-block px-5 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Cerrar sesión</a>
+        <a href="paciente" class="hidden md:inline-block px-5 py-2 btn-blue rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Paciente</a>
+        <a href="logout" class="hidden md:inline-block px-5 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Cerrar sesión</a>
       <?php elseif (isset($_SESSION['tipo']) && $_SESSION['tipo'] == 'doctor'): ?>
-        <a href="/doctor" class="hidden md:inline-block px-5 py-2 btn-blue rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Doctor</a>
-        <a href="/logout" class="hidden md:inline-block px-5 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Cerrar sesión</a>
+        <a href="doctor" class="hidden md:inline-block px-5 py-2 btn-blue rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Doctor</a>
+        <a href="logout" class="hidden md:inline-block px-5 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Cerrar sesión</a>
       <?php else: ?>
-        <a href="/login" class="hidden md:inline-block px-5 py-2 btn-blue rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Iniciar sesión</a>
+        <a href="login" class="hidden md:inline-block px-5 py-2 btn-blue rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Iniciar sesión</a>
       <?php endif; ?>
     </div>
   </div>
@@ -86,8 +92,8 @@
     localStorage.setItem('darkMode', newDarkMode);
   });
 
-  // Solo aplicar el modo cuando todo esté cargado
-  window.addEventListener('load', () => {
+  // Apply initial state
+  document.addEventListener('DOMContentLoaded', () => {
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     applyDarkMode(savedDarkMode);
   });

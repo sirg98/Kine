@@ -9,7 +9,9 @@ mysqli_report(MYSQLI_REPORT_OFF);
 
 // Crear conexión con mysqli
 $conn = mysqli_connect($host, $user, $pass, $db);
-
+if ($conn) {
+    $conn->set_charset("utf8mb4");
+}
 // Verificar conexión
 if (!$conn) {
     // Mostrar una página de error simple si la conexión falla

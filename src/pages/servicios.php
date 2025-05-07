@@ -84,16 +84,16 @@ $tratamientos = [
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="tailwind-colors.css" rel="stylesheet">
 </head>
-<body class="bg-blue text-gray-900">
+<body class="text-gray-900">
 <main>
-    <section class="py-16 bg-blue">
+    <section class="py-16">
         <div class="container mx-auto px-4">
             <h1 class="text-5xl md:text-6xl font-bold text-center mb-4 text-kinetic-900">Our Specialized Treatments</h1>
             <p class="text-center text-base text-kinetic-700 mb-8 max-w-2xl mx-auto">We offer a comprehensive range of kinesiology techniques tailored to address various physical, emotional, and nutritional concerns, helping you achieve optimal health and wellbeing.</p>
         </div>
     </section>
 
-    <section class="bg-blue py-8">
+    <section class="py-8">
         <div class="container mx-auto px-4 space-y-16">
 
             <?php foreach ($tratamientos as $t): ?>
