@@ -5,7 +5,7 @@ $result = mysqli_query($conn, $sql);
 $perfil = mysqli_fetch_assoc($result);
 ?>
 
-<div id="modalPerfil" class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-50 hidden overflow-y-auto h-full w-full">
+<div id="modalPerfil" class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-50 hidden overflow-y-auto h-full w-full max-h-screen">
     <div class="relative top-20 mx-auto p-5 border border-card w-full max-w-lg shadow-lg rounded-md bg-blue dark:bg-gray-800">
         <div class="mt-3">
             <div class="flex justify-between items-center mb-6">

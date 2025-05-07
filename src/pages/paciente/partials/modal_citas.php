@@ -54,7 +54,7 @@ $doctores = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
 
 <!-- Modal para agendar citas -->
-<div id="modalCitas" class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-50 hidden overflow-y-auto h-full w-full">
+<div id="modalCitas" class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-50 hidden overflow-y-auto h-full w-full max-h-screen">
     <div class="relative top-20 mx-auto p-5 border border-card w-3/4 max-w-4xl shadow-lg rounded-md bg-blue dark:bg-gray-800">
         <div class="mt-3">
             <div class="flex justify-between items-center mb-6">

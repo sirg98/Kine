@@ -11,8 +11,8 @@
             FROM citas c
             JOIN usuarios p ON c.paciente_id = p.id
             JOIN tratamientos t ON c.tratamiento_id = t.id
-            WHERE c.doctor_id = $doctor_id
-              AND c.fecha >= CURDATE()
+            WHERE c.doctor_id = 4
+              AND c.fecha >=  NOW()
               AND c.estado = 'pendiente'
             ORDER BY c.fecha ASC
             LIMIT 5";
@@ -60,7 +60,7 @@
         <div class="mb-10">
             <div class="flex items-center justify-between mb-4">
                 <div class="font-semibold text-lg text-kinetic-900">Próximas Citas</div>
-                <button onclick="openModalTodasCitas()" class="px-4 py-2 bg-kinetic-500 text-white rounded font-semibold hover:bg-kinetic-600 transition">Todas las Citas</button>
+                <button onclick="openModalGestionarCitas()" class="px-4 py-2 bg-kinetic-500 text-white rounded font-semibold hover:bg-kinetic-600 transition">Todas las Citas</button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <?php if (empty($proximas_citas)): ?>
@@ -80,7 +80,14 @@
                                     <?= date('d/m/Y H:i', strtotime($cita['fecha'])) ?>
                                 </span>
                             </div>
-                            <a href="nuevo_informe.php?paciente_id=<?= $cita['paciente_id'] ?? $cita['paciente'] ?? '' ?>" class="mt-3 px-4 py-2 btn-blue text-white rounded-lg hover:bg-blue-600 transition-colors text-center font-semibold">Nuevo Informe</a>
+                            <form action="nuevoinforme" method="post" style="display:inline;">
+                                <input type="hidden" name="paciente_id" value="<?= $cita['paciente_id'] ?? $cita['paciente'] ?? '' ?>">
+                                <input type="hidden" name="tratamiento_id" value="<?= $cita['tratamiento_id'] ?? '' ?>">
+                                <input type="hidden" name="cita_id" value="<?= $cita['id'] ?>">
+                                <button type="submit" class="mt-3 px-4 py-2 btn-blue text-white rounded-lg hover:bg-blue-600 transition-colors text-center font-semibold">
+                                    Nuevo Informe
+                                </button>
+                            </form>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>

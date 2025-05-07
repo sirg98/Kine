@@ -1,19 +1,18 @@
 <?php
-// Obtener todos los pacientes con sus últimos informes
+// Obtener todos los informes
 $sql = "SELECT 
-            p.id as paciente_id,
-            p.nombre as paciente_nombre,
             i.id as informe_id,
             i.fecha,
-            d.nombre as doctor_nombre
-        FROM usuarios p
-        LEFT JOIN informes i ON p.id = i.paciente_id
-        LEFT JOIN usuarios d ON i.doctor_id = d.id
-        WHERE i.id IN (
-            SELECT MAX(id) 
-            FROM informes 
-            GROUP BY paciente_id
-        )
+            p.id as paciente_id,
+            p.nombre as paciente_nombre,
+            p.apellidos as paciente_apellidos,
+            d.nombre as doctor_nombre,
+            d.apellidos as doctor_apellidos,
+            t.nombre as tratamiento_nombre
+        FROM informes i
+        JOIN usuarios p ON i.paciente_id = p.id
+        JOIN usuarios d ON i.doctor_id = d.id
+        LEFT JOIN tratamientos t ON i.tratamiento_id = t.id
         ORDER BY i.fecha DESC";
 
 $res = mysqli_query($conn, $sql) or die("Error en la consulta: " . mysqli_error($conn));
@@ -38,7 +37,7 @@ $res = mysqli_query($conn, $sql) or die("Error en la consulta: " . mysqli_error(
                     <input type="text" 
                            id="searchInput" 
                            class="w-full px-4 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                           placeholder="Buscar paciente...">
+                           placeholder="Buscar por paciente o tratamiento...">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                         <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -47,8 +46,8 @@ $res = mysqli_query($conn, $sql) or die("Error en la consulta: " . mysqli_error(
                 </div>
             </div>
 
-            <!-- Lista de Pacientes -->
-            <div class="space-y-4 max-h-[60vh] overflow-y-auto">
+            <!-- Lista de Informes -->
+            <div class="space-y-4 h-96 overflow-y-auto pr-2">
                 <?php if (mysqli_num_rows($res) === 0): ?>
                     <p class='text-center text-secondary'>No hay informes registrados.</p>
                 <?php else: ?>
@@ -59,17 +58,24 @@ $res = mysqli_query($conn, $sql) or die("Error en la consulta: " . mysqli_error(
                             <div class="flex justify-between items-center">
                                 <div>
                                     <h4 class="text-lg font-semibold text-secondary">
-                                        <?= htmlspecialchars($row['paciente_nombre']) ?>
+                                        <?= htmlspecialchars($row['paciente_nombre'] . ' ' . $row['paciente_apellidos']) ?>
                                     </h4>
                                     <div class="mt-1 text-sm text-kinetic-900">
-                                        <p>Dr. <?= htmlspecialchars($row['doctor_nombre']) ?></p>
-                                        <p>Último informe: <?= $fecha ?></p>
+                                        <p>Tratamiento: <?= htmlspecialchars($row['tratamiento_nombre'] ?? 'Sin tratamiento') ?></p>
+                                        <p>Dr. <?= htmlspecialchars($row['doctor_apellidos'] . ', ' . $row['doctor_nombre']) ?></p>
+                                        <p>Fecha: <?= $fecha ?></p>
                                     </div>
                                 </div>
-                                <a href="informe?id=<?= $row['informe_id'] ?>" 
-                                   class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-200">
-                                    Ver Informe
-                                </a>
+                                <div class="flex space-x-2">
+                                    <a href="informe?id=<?= $row['informe_id'] ?>" 
+                                       class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-200">
+                                        Ver Informe
+                                    </a>
+                                    <a href="nuevo_informe.php?paciente_id=<?= $row['paciente_id'] ?>" 
+                                       class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 transition-colors duration-200">
+                                        Nuevo Informe
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     <?php endwhile; ?>
@@ -82,10 +88,12 @@ $res = mysqli_query($conn, $sql) or die("Error en la consulta: " . mysqli_error(
 <script>
 function openModal(modalId) {
     document.getElementById(modalId).classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
+    document.body.style.overflow = 'auto';
 }
 
 // Cerrar modal al hacer clic fuera
@@ -95,7 +103,7 @@ document.getElementById('modalInformes').addEventListener('click', function(e) {
     }
 });
 
-// Función de búsqueda simplificada
+// Función de búsqueda
 document.getElementById('searchInput').addEventListener('input', function(e) {
     const searchTerm = e.target.value.toLowerCase().trim();
     const cards = document.querySelectorAll('.card-item');

@@ -20,6 +20,7 @@ $routes = [
     'paciente' => 'src/pages/paciente/index.php',
     'doctor' => 'src/pages/doctor/index.php',
     'informe' => 'src/pages/doctor/informe.php',
+    'nuevoinforme' => 'src/pages/doctor/nuevo_informe.php',
     'apuntes' => 'src/pages/doctor/apuntes.php',
 ];
 
@@ -32,6 +33,7 @@ if ($url === 'logout') {
 }
 
 $main = $routes[$url] ?? 'partials/404.php';
+echo $main;
 ?>
 <!DOCTYPE html>
 <html lang="es" class="dark:bg-gray-900">

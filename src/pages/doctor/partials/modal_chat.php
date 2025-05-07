@@ -10,7 +10,7 @@ $result = mysqli_query($conn, $sql);
 $doctores = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
 
-<div id="modalChat" class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+<div id="modalChat" class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-50 hidden overflow-y-auto h-full w-full z-50 max-h-screen">
     <div class="relative top-10 mx-auto p-0 border border-card w-full max-w-6xl shadow-lg rounded-md bg-blue dark:bg-gray-800 flex flex-col min-h-[650px]">
         <!-- Título -->
         <div class="px-8 pt-8 pb-4 border-b border-card flex items-center justify-between">
@@ -62,7 +62,7 @@ $doctores = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
             <!-- Columna derecha: Chat -->
             <div class="w-2/3 flex flex-col p-4">
-                <div class="flex-1 overflow-y-auto bg-white dark:bg-gray-900 rounded-md p-4 mb-2 border border-card" id="chatMensajes">
+                <div class="flex-1 overflow-y-auto bg-white dark:bg-gray-900 rounded-md p-4 mb-2 border border-card max-h-96 pr-2 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100" id="chatMensajes">
                     <p class="text-center text-secondary">Selecciona un contacto para comenzar el chat.</p>
                 </div>
                 <form id="chatForm" class="flex mt-2">

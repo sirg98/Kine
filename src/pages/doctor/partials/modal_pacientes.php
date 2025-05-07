@@ -48,7 +48,7 @@ $res = mysqli_query($conn, $sql) or die("Error en la consulta: " . mysqli_error(
                 </div>
 
                 <!-- Lista de Pacientes -->
-                <div class="space-y-4 max-h-[60vh] overflow-y-auto">
+                <div class="space-y-4 h-96 overflow-y-auto pr-2">
                     <?php if (mysqli_num_rows($res) === 0): ?>
                         <p class='text-center text-secondary'>No hay pacientes registrados.</p>
                     <?php else: ?>
