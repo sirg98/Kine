@@ -11,11 +11,11 @@
             FROM citas c
             JOIN usuarios p ON c.paciente_id = p.id
             JOIN tratamientos t ON c.tratamiento_id = t.id
-            WHERE c.doctor_id = 4
+            WHERE c.doctor_id = $doctor_id
               AND c.fecha >=  NOW()
               AND c.estado = 'pendiente'
             ORDER BY c.fecha ASC
-            LIMIT 5";
+            LIMIT 3";
     $result = mysqli_query($conn, $sql);
     $proximas_citas = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
@@ -123,7 +123,6 @@
     </button>
     <!-- Incluir el modal de chat del doctor -->
     <?php include 'partials/modal_chat.php'; ?>
-    <?php include 'partials/modal_todas_citas.php'; ?>
     <script>
     function openModalChatDoctor() {
         document.getElementById('modalChat').classList.remove('hidden');

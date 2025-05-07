@@ -2,7 +2,7 @@
 $host = 'localhost';
 $db   = 'kine';
 $user = 'root';
-$pass = '';
+$pass = 'rootroot';
 
 // Deshabilitar excepciones de mysqli para manejar errores manualmente
 mysqli_report(MYSQLI_REPORT_OFF);

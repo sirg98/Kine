@@ -5,11 +5,10 @@ session_start();
 
 include 'components/db.php';
 include 'auth/login.php';
+
 $url = $_GET['url'] ?? '';
-if ($url === 'doctor-apuntes') {
-    $NO_NAVBAR = true;
-    $NO_FOOTER = true;
-}
+$url = ltrim($url, '/');
+
 $routes = [
     '' => 'partials/hero.php',
     'inicio' => 'partials/hero.php',
@@ -22,9 +21,9 @@ $routes = [
     'informe' => 'src/pages/doctor/informe.php',
     'nuevoinforme' => 'src/pages/doctor/nuevo_informe.php',
     'apuntes' => 'src/pages/doctor/apuntes.php',
+    'admin' => 'src/pages/admin/index.php',
+    'ajustes' => 'src/pages/ajustes.php',
 ];
-
-$url = $_GET['url'] ?? '';
 
 if ($url === 'logout') {
     session_destroy();
@@ -33,7 +32,7 @@ if ($url === 'logout') {
 }
 
 $main = $routes[$url] ?? 'partials/404.php';
-echo $main;
+
 ?>
 <!DOCTYPE html>
 <html lang="es" class="dark:bg-gray-900">
