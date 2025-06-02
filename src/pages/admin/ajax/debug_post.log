@@ -1,0 +1,14 @@
+{
+    "tipo": "paciente",
+    "nombre": "Diego Chuhan",
+    "apellidos": "Li",
+    "email": "diegochuhanli@gmail.com",
+    "fecha_nacimiento": "2005-02-05",
+    "telefono": "673872022",
+    "codigo_postal": "28045",
+    "ciudad": "Madrid",
+    "tratamiento_id": "4",
+    "terapeuta_id": "5",
+    "fecha_cita": "2025-06-03",
+    "hora_cita": "10:00"
+}

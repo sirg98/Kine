@@ -1,0 +1,204 @@
+/* Paleta de colores de KineticCare (de kinetic-care-compass) */
+:root {
+  --kinetic-50: #edfbfd;
+  --kinetic-100: #d6f1f8;
+  --kinetic-200: #b5e4f0;
+  --kinetic-300: #83d0e4;
+  --kinetic-400: #4db2d0;
+  --kinetic-500: #2e95b7;
+  --kinetic-600: #247a9b;
+  --kinetic-700: #21637f;
+  --kinetic-800: #225469;
+  --kinetic-900: #204659;
+  --kinetic-950: #0f2c3c;
+
+  --healing-50: #f1fbf4;
+  --healing-100: #dff8e8;
+  --healing-200: #bfeed3;
+  --healing-300: #92e0b8;
+  --healing-400: #60c795;
+  --healing-500: #3aac7a;
+  --healing-600: #258a61;
+  --healing-700: #1d7152;
+  --healing-800: #1b5a44;
+  --healing-900: #184b3a;
+  --healing-950: #083020;
+
+  --background-blue: #f8fcfc;
+  --background-dark: #101214; /* Azul-morado oscuro */
+
+  --blue: #f8fcfc;
+  --blue-dark: #101214;
+  --blue-text: #204659;
+  --blue-text-dark: #e0e6ff;
+  --blue-border: #b5e4f0;
+  --blue-border-dark: #23235a;
+
+  --btn: #247a9b;
+  --btn-hover: #21637f;
+  --btn-focus: #4db2d0;
+  --btn-dark: #258a61;
+  --btn-dark-hover: #1d7152;
+
+  --text-main: #0f2c3c;
+  --text-secondary: #225469;
+}
+.dark {
+  /* Modo oscuro: tonos más saturados, menos luminosos, mejor contraste */
+  --kinetic-50:  #101214;   /* Fondo principal */
+  --kinetic-100: #18202a;   /* Fondo de tarjetas */
+  --kinetic-200: #1e293b;   /* Fondo de inputs/cards elevadas */
+  --kinetic-300: #22334a;   /* Bordes suaves, separadores */
+  --kinetic-400: #2a4365;   /* Bordes, iconos secundarios */
+  --kinetic-500: #219ebc;   /* Azul acento principal */
+  --kinetic-600: #38b6ff;   /* Azul acento hover */
+  --kinetic-700: #f4feff;  /* Azul claro para iconos activos, links */
+  --kinetic-800: #a2e6fa;   /* Azul muy claro para badges, highlights */
+  --kinetic-900: #e0f7fa;   /* Casi blanco azulado para textos destacados */
+  --kinetic-950: #f4feff;   /* Blanco puro para textos sobre fondo oscuro */
+  /* Botón principal verde */
+  --btn: #258a61;
+  --btn-hover: #1d7152;
+  --btn-focus: #60c795;
+  --btn-text: #f8fafc;
+
+  /* Card */
+  --card-bg: #18202a;
+  --card-border: #22334a;
+  --card-text: #e0f7fa;
+
+  /* Texto principal y secundario más blanco */
+  --text-main: #e0f7fa;
+  --text-secondary: #f4feff;
+}
+/* Ejemplo de uso: */
+/* background-color: var(--kinetic-500); */
+
+/* Utilidades para usar la paleta con clases tipo Tailwind */
+.bg-kinetic-50 { background-color: var(--kinetic-50) !important; }
+.bg-kinetic-100 { background-color: var(--kinetic-100) !important; }
+.bg-kinetic-200 { background-color: var(--kinetic-200) !important; }
+.bg-kinetic-300 { background-color: var(--kinetic-300) !important; }
+.bg-kinetic-400 { background-color: var(--kinetic-400) !important; }
+.bg-kinetic-500 { background-color: var(--kinetic-500) !important; }
+.bg-kinetic-600 { background-color: var(--kinetic-600) !important; }
+.bg-kinetic-700 { background-color: var(--kinetic-700) !important; }
+.bg-kinetic-800 { background-color: var(--kinetic-800) !important; }
+.bg-kinetic-900 { background-color: var(--kinetic-900) !important; }
+.bg-kinetic-950 { background-color: var(--kinetic-950) !important; }
+
+.bg-healing-50 { background-color: var(--healing-50) !important; }
+.bg-healing-100 { background-color: var(--healing-100) !important; }
+.bg-healing-200 { background-color: var(--healing-200) !important; }
+.bg-healing-300 { background-color: var(--healing-300) !important; }
+.bg-healing-400 { background-color: var(--healing-400) !important; }
+.bg-healing-500 { background-color: var(--healing-500) !important; }
+.bg-healing-600 { background-color: var(--healing-600) !important; }
+.bg-healing-700 { background-color: var(--healing-700) !important; }
+.bg-healing-800 { background-color: var(--healing-800) !important; }
+.bg-healing-900 { background-color: var(--healing-900) !important; }
+.bg-healing-950 { background-color: var(--healing-950) !important; }
+
+.text-kinetic-500 { color: var(--kinetic-500) !important; }
+.text-kinetic-600 { color: var(--kinetic-600) !important; }
+.text-kinetic-700 { color: var(--kinetic-700) !important; }
+.text-kinetic-800 { color: var(--kinetic-800) !important; }
+.dark .text-kinetic-800 { color: #f0f2f3 !important; }
+.text-kinetic-900 { color: var(--kinetic-900) !important; }
+.dark .text-kinetic-900 { color: #e0e6ff !important; }
+.text-healing-500 { color: var(--healing-500) !important; }
+.text-healing-600 { color: var(--healing-600) !important; }
+.text-healing-700 { color: var(--healing-700) !important; }
+.text-healing-800 { color: var(--healing-800) !important; }
+.text-healing-900 { color: var(--healing-900) !important; }
+
+.bg-blue-light { background-color: var(--background-blue) !important; }
+.bg-blue-dark { background-color: var(--background-dark) !important; }
+.bg-card { background-color: #ffffff !important; }
+.dark .bg-card { background-color: var(--card-bg) !important; }
+
+/* Hover states */
+.hover\:kinetic-600:hover { background-color: var(--kinetic-600) !important; }
+.hover\:kinetic-700:hover { background-color: var(--kinetic-700) !important; }
+.hover\:healing-600:hover { background-color: var(--healing-600) !important; }
+.hover\:healing-700:hover { background-color: var(--healing-700) !important; }
+
+/* Card animation */
+.transition-transform {
+    transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.bg-blue { background-color: var(--blue) !important; }
+.dark .bg-blue { background-color: var(--blue-dark) !important; }
+
+.text-blue { color: var(--blue-text) !important; }
+.dark .text-blue { color: var(--blue-text-dark) !important; }
+
+.border-blue { border-color: var(--blue-border) !important; }
+.dark .border-blue { border-color: var(--blue-border-dark) !important; }
+
+/* Botón principal */
+.btn-blue { background-color: var(--btn) !important; color: #fff !important; }
+.btn-blue:hover { background-color: var(--btn-hover) !important; }
+.btn-blue:focus { background-color: var(--btn-focus) !important; outline: 2px solid var(--btn-hover) !important; }
+.dark .btn-blue { background-color: var(--btn) !important; color: var(--btn-text) !important; }
+.dark .btn-blue:hover { background-color: var(--btn-hover) !important; }
+.dark .btn-blue:focus { background-color: var(--btn-focus) !important; outline: 2px solid var(--btn-hover) !important; }
+
+/* Hover variantes */
+.hover\:bg-blue:hover { background-color: var(--blue) !important; }
+.dark .hover\:bg-blue:hover { background-color: var(--blue-dark) !important; }
+
+.hover\:text-blue:hover { color: var(--blue-text) !important; }
+.dark .hover\:text-blue:hover { color: var(--blue-text-dark) !important; }
+
+.hover\:border-blue:hover { border-color: var(--blue-border) !important; }
+.dark .hover\:border-blue:hover { border-color: var(--blue-border-dark) !important; }
+
+/* Utilidades kinetic para modo claro y oscuro */
+.bg-kinetic-50 { background-color: var(--kinetic-50) !important; }
+.bg-kinetic-100 { background-color: var(--kinetic-100) !important; }
+.bg-kinetic-200 { background-color: var(--kinetic-200) !important; }
+.bg-kinetic-300 { background-color: var(--kinetic-300) !important; }
+.bg-kinetic-400 { background-color: var(--kinetic-400) !important; }
+.bg-kinetic-500 { background-color: var(--kinetic-500) !important; }
+.bg-kinetic-600 { background-color: var(--kinetic-600) !important; }
+.bg-kinetic-700 { background-color: var(--kinetic-700) !important; }
+.bg-kinetic-800 { background-color: var(--kinetic-800) !important; }
+.bg-kinetic-900 { background-color: var(--kinetic-900) !important; }
+.bg-kinetic-950 { background-color: var(--kinetic-950) !important; }
+
+.text-kinetic-50 { color: var(--kinetic-50) !important; }
+.text-kinetic-100 { color: var(--kinetic-100) !important; }
+.text-kinetic-200 { color: var(--kinetic-200) !important; }
+.text-kinetic-300 { color: var(--kinetic-300) !important; }
+.text-kinetic-400 { color: var(--kinetic-400) !important; }
+.text-kinetic-500 { color: var(--kinetic-500) !important; }
+.text-kinetic-600 { color: var(--kinetic-600) !important; }
+.text-kinetic-700 { color: var(--kinetic-700) !important; }
+.text-kinetic-800 { color: var(--kinetic-800) !important; }
+.text-kinetic-900 { color: var(--kinetic-900) !important; }
+.text-kinetic-950 { color: var(--kinetic-950) !important; }
+
+.border-kinetic-50 { border-color: var(--kinetic-50) !important; }
+.border-kinetic-100 { border-color: var(--kinetic-100) !important; }
+.border-kinetic-200 { border-color: var(--kinetic-200) !important; }
+.border-kinetic-300 { border-color: var(--kinetic-300) !important; }
+.border-kinetic-400 { border-color: var(--kinetic-400) !important; }
+.border-kinetic-500 { border-color: var(--kinetic-500) !important; }
+.border-kinetic-600 { border-color: var(--kinetic-600) !important; }
+.border-kinetic-700 { border-color: var(--kinetic-700) !important; }
+.border-kinetic-800 { border-color: var(--kinetic-800) !important; }
+.border-kinetic-900 { border-color: var(--kinetic-900) !important; }
+.border-kinetic-950 { border-color: var(--kinetic-950) !important; }
+
+/* Utilidades para cards modo oscuro */
+.dark .bg-card { background-color: var(--card-bg) !important; }
+.dark .border-card { border-color: var(--card-border) !important; }
+.dark .text-card { color: var(--card-text) !important; }
+
+/* Utilidades para texto principal y secundario modo oscuro */
+.text-main { color: var(--text-main) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.dark .text-main { color: var(--text-main) !important; }
+.dark .text-secondary { color: var(--text-secondary) !important; } 
