@@ -35,10 +35,10 @@ $terapeutas = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 </div>
 
                 <!-- Buscador -->
-                <input type="text" id="buscadorContactos" class="w-full mb-4 px-3 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Buscar contacto...">
+                <input type="text" id="buscadorContactos" class="w-full mb-4 px-3 py-2 bg-card text-kinetic-900 dark:text-gray-100 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Buscar contacto...">
 
                 <!-- Lista de Pacientes -->
-                <div id="listaPacientes" class="space-y-2">
+                <div id="listaPacientes" class="text-kinetic-900 dark:text-gray-100 space-y-2">
                     <?php foreach ($pacientes as $p): ?>
                         <button type="button" class="w-full text-left px-3 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-gray-600 transition contacto-btn" 
                                 data-id="<?= $p['id'] ?>" 
@@ -49,7 +49,7 @@ $terapeutas = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 </div>
 
                 <!-- Lista de terapeutas -->
-                <div id="listaDoctores" class="space-y-2 hidden">
+                <div id="listaDoctores" class="text-kinetic-900 dark:text-gray-100 space-y-2 hidden">
                     <?php foreach ($terapeutas as $d): ?>
                         <button type="button" class="w-full text-left px-3 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-gray-600 transition contacto-btn" 
                                 data-id="<?= $d['id'] ?>" 
@@ -62,11 +62,11 @@ $terapeutas = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
             <!-- Columna derecha: Chat -->
             <div class="w-2/3 flex flex-col p-4">
-                <div class="flex-1 overflow-y-auto bg-white dark:bg-gray-900 rounded-md p-4 mb-2 border border-card max-h-96 pr-2 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100" id="chatMensajes">
+                <div class="flex-1 overflow-y-auto bg-card dark:bg-gray-900 rounded-md p-4 mb-2 border border-card max-h-96 pr-2 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100" id="chatMensajes">
                     <p class="text-center text-secondary">Selecciona un contacto para comenzar el chat.</p>
                 </div>
                 <form id="chatForm" class="flex mt-2">
-                    <input type="text" id="chatInput" class="flex-1 border border-card rounded-l px-2 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Escribe tu mensaje..." disabled>
+                    <input type="text" id="chatInput" class="flex-1 bg-card text-kinetic-900 dark:text-gray-100 border border-card rounded-l px-2 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Escribe tu mensaje..." disabled>
                     <button type="submit" class="bg-blue-500 text-white px-4 rounded-r disabled:opacity-50" disabled>Enviar</button>
                 </form>
             </div>

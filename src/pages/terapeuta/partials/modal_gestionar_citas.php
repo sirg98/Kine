@@ -18,7 +18,7 @@
                     <div id="calendarMonthLabel" class="font-semibold text-lg text-main"></div>
                     <button id="nextMonthBtn" class="px-2 py-1 rounded bg-blue-100 text-blue-700 hover:bg-blue-200">&#8594;</button>
                 </div>
-                <input type="date" id="calendarDateInput" class="mb-4 px-3 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" />
+                <input type="date" id="calendarDateInput" class="bg-card text-kinetic-900 dark:text-gray-100 mb-4 px-3 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" />
                 <div id="calendarGrid" class="grid grid-cols-7 gap-1"></div>
             </div>
             <!-- Panel de detalles de la cita -->

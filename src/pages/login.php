@@ -50,6 +50,19 @@ $title = "Iniciar Sesión - ReflexioKineTP";
         <a href="#" onclick="openResetModal()" class="text-blue-600 hover:underline">¿Olvidaste tu contraseña?</a>
     </div>
 </main>
+<div id="resetModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-sm w-full shadow-lg">
+        <h2 class="text-xl font-bold mb-4 text-center">Restablecer contraseña</h2>
+        <form id="resetForm" action="/restablecer" method="get">
+            <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Correo electrónico</label>
+            <input type="email" name="email" class="w-full border border-gray-300 rounded px-3 py-2 mb-4" required placeholder="tu@correo.com">
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeResetModal()" class="text-sm text-gray-500 hover:text-gray-800 dark:text-gray-300">Cancelar</button>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <style>
 @keyframes fade-in {
@@ -67,4 +80,41 @@ function togglePassword() {
     const icon = document.getElementById('eye-icon');
     input.type = input.type === 'password' ? 'text' : 'password';
 }
+function openResetModal() {
+    document.getElementById('resetModal').classList.remove('hidden');
+}
+function closeResetModal() {
+    document.getElementById('resetModal').classList.add('hidden');
+}
+document.getElementById('resetForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = this.email.value;
+    const submitButton = this.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = "Enviando...";
+
+    fetch('/auth/recuperar_contraseña.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({ email })
+    })
+    .then(response => response.json())
+    .then(data => {
+        submitButton.disabled = false;
+        submitButton.textContent = "Enviar";
+
+        alert(data.message);
+
+        if (data.success) {
+            closeResetModal();
+        }
+    })
+    .catch(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = "Enviar";
+        alert("❌ Error al enviar la solicitud. Intenta más tarde.");
+    });
+});
+
 </script>

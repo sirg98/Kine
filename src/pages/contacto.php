@@ -69,17 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Contacto - ReflexioKineTP</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-    <link href="tailwind-colors.css" rel="stylesheet"/>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-</head>
-<body class="text-gray-900">
 <main>
     <section class="py-16">
         <div class="container mx-auto px-4">
@@ -97,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <section class="container mx-auto px-4 pb-16">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- FORMULARIO -->
-            <form method="POST" class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-8 flex flex-col space-y-4">
+            <form method="POST" class="bg-card dark:bg-gray-900 rounded-xl shadow-sm p-8 flex flex-col space-y-4">
                 <h2 class="font-semibold text-xl mb-2 text-main">Envíanos un mensaje</h2>
                 <div>
                     <label class="block text-sm font-medium mb-1 text-secondary">Nombre completo</label>
@@ -128,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <!-- INFORMACIÓN DE CONTACTO -->
-            <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-8 flex flex-col space-y-6">
+            <div class="bg-card text-kinetic-900 dark:bg-gray-900 rounded-xl shadow-sm p-8 flex flex-col space-y-6">
                 <h2 class="font-semibold text-xl mb-2 text-main">Información de contacto</h2>
                 <div class="text-sm text-kinetic-700 space-y-2">
                     <p><strong>📍 Dirección:</strong><br>123 Wellness Avenue, Healing City, HC 12345, España</p>
@@ -158,5 +147,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </section>
 </main>
-</body>
-</html>

@@ -91,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <p style='margin-top: 20px;'>🗓️ Además, aquí tienes el código QR para acceder a los detalles de tu cita:</p>
         <img src='cid:qrimage' alt='QR Code' style='max-width: 200px;' />
+        <p>En caso de que no funcione el link anterior: <a href='$url' target='_blank'>$url</a></p>
         <p style='margin-top: 30px;'>Gracias por confiar en nosotros.<br><strong>El equipo de ReflexioKineTP</strong></p>
     ";
 

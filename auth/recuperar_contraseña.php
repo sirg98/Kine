@@ -39,6 +39,10 @@ $body = "
     <p>
         <a href='$url' target='_blank' style='color: #1d4ed8; text-decoration: underline; font-weight: bold;'>Restablecer mi contraseña</a>
     </p>
+    <p style='margin-top: 10px; font-size: 14px; color: #555;'>
+        Si el botón anterior no funciona, copia y pega este enlace en tu navegador:<br>
+        <span style='color:#1e40af;'>$url</span>
+    </p>
 
     <p style='margin-top: 24px; font-size: 14px; color: #555;'>
         Si no solicitaste este cambio, puedes ignorar este correo. Tu contraseña actual seguirá siendo válida.

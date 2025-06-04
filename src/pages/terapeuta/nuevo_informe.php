@@ -72,52 +72,84 @@ if (
         <?php if ($cita_id): ?>
     <div id="qr-auth-container" class="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow border border-blue-300 mb-6">
         <h2 class="text-lg font-semibold mb-4 text-center text-gray-800">Verifica la cita escaneando el QR del paciente</h2>
-        <div id="qr-reader" style="width: 300px;"></div>
+        <div id="qr-reader" class="w-full"></div>
         <p id="qr-message" class="mt-4 text-sm text-gray-600">Esperando escaneo...</p>
+        <button id="cambiar-camara" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+            Cambiar cámara
+        </button>
     </div>
 
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const citaEsperada = "<?= $cita_id ?>";
-        const qrContainer = document.getElementById('qr-auth-container');
-        const form = document.querySelector("form[method='POST']");
-        const message = document.getElementById("qr-message");
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const citaEsperada = "<?= $cita_id ?>";
+    const qrContainer = document.getElementById('qr-auth-container');
+    const form = document.querySelector("form[method='POST']");
+    const message = document.getElementById("qr-message");
+    const switchButton = document.getElementById("cambiar-camara");
 
-        form.style.display = "none";
+    form.style.display = "none";
 
-        const qrScanner = new Html5Qrcode("qr-reader");
-        Html5Qrcode.getCameras().then(devices => {
-            if (devices && devices.length) {
-                const cameraId = devices[0].id;
-                qrScanner.start(
-                    cameraId,
-                    { fps: 10, qrbox: 250 },
-                    qrCodeMessage => {
-                        const url = new URL(qrCodeMessage, window.location.origin);
-                        const idParam = url.searchParams.get("id");
+    const qrScanner = new Html5Qrcode("qr-reader");
+    let cameraDevices = [];
+    let currentCameraIndex = 0;
 
-                        if (idParam === citaEsperada) {
-                            message.textContent = "✅ Cita verificada correctamente. Puedes rellenar el informe.";
-                            qrContainer.remove();
-                            form.style.display = "block";
-                            qrScanner.stop();
-                        } else {
-                            message.textContent = "❌ QR incorrecto. Asegúrate de escanear el QR correcto.";
-                        }
-                    },
-                    error => {
-                        // Opcional: mensaje en consola si no se detecta QR
-                    }
-                );
-            } else {
-                message.textContent = "No se encontró ninguna cámara.";
+    function iniciarEscaner(cameraId) {
+        qrScanner.start(
+            cameraId,
+            { fps: 30, qrbox: 400 },
+            qrCodeMessage => {
+                const url = new URL(qrCodeMessage, window.location.origin);
+                const idParam = url.searchParams.get("id");
+
+                if (idParam === citaEsperada) {
+                    message.textContent = "✅ Cita verificada correctamente. Puedes rellenar el informe.";
+                    qrContainer.remove();
+                    form.style.display = "block";
+                    qrScanner.stop().then(() => qrScanner.clear());
+                } else {
+                    message.textContent = "❌ QR incorrecto. Asegúrate de escanear el QR correcto.";
+                }
+            },
+            error => {
+                message.textContent = "⛔ No se reconoce ningún QR válido, intenta enfocar mejor.";
             }
-        }).catch(err => {
-            message.textContent = "Error al iniciar el lector QR: " + err;
+        );
+    }
+
+    Html5Qrcode.getCameras().then(devices => {
+        if (devices.length === 0) {
+            message.textContent = "No se encontró ninguna cámara.";
+            return;
+        }
+
+        cameraDevices = devices;
+
+        // Buscar cámara trasera primero
+        const indexTrasera = devices.findIndex(d =>
+            d.label.toLowerCase().includes("back") || d.label.toLowerCase().includes("rear")
+        );
+        currentCameraIndex = indexTrasera >= 0 ? indexTrasera : 0;
+
+        iniciarEscaner(cameraDevices[currentCameraIndex].id);
+
+        switchButton.addEventListener("click", () => {
+            qrScanner.stop().then(() => {
+                qrScanner.clear();
+                currentCameraIndex = (currentCameraIndex + 1) % cameraDevices.length;
+                iniciarEscaner(cameraDevices[currentCameraIndex].id);
+            });
         });
+
+        if (cameraDevices.length < 2) {
+            switchButton.style.display = "none";
+        }
+    }).catch(err => {
+        message.textContent = "Error al iniciar el lector QR: " + err;
     });
-    </script>
+});
+</script>
+
     <?php endif; ?>
 
         <form method="POST" class="flex flex-col gap-8 bg-white border border-card rounded-lg shadow-lg p-8">

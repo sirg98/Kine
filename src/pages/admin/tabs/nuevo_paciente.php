@@ -4,13 +4,13 @@ $terapeutas      = mysqli_query($conn, "SELECT id, nombre, apellidos FROM usuari
 $tratamientos  = mysqli_query($conn, "SELECT * FROM tratamientos ORDER BY nombre");
 ?>
 
-<h2 class="text-2xl font-bold mb-4">Registrar nueva cita para paciente 🩺</h2>
+<h2 class="text-kinetic-900 dark:text-gray-100 text-2xl font-bold mb-4">Registrar nueva cita para paciente 🩺</h2>
 <p class="text-gray-600 mb-6">Introduce los datos del nuevo paciente y su cita.</p>
 
 <form method="POST" action="src/pages/admin/ajax/guardar_paciente.php" class="space-y-6 max-w-3xl">
     <!-- DATOS DEL PACIENTE -->
-    <div class="border rounded p-4 bg-white shadow">
-        <h3 class="font-semibold mb-3">🧍 Datos del paciente</h3>
+    <div class="border rounded p-4 bg-card shadow">
+        <h3 class="font-semibold mb-3 text-kinetic-900 dark:text-gray-100">🧍 Datos del paciente</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input type="text" name="nombre" placeholder="Nombre" required class="border rounded px-3 py-2">
             <input type="text" name="apellidos" placeholder="Apellidos" required class="border rounded px-3 py-2">
@@ -24,8 +24,8 @@ $tratamientos  = mysqli_query($conn, "SELECT * FROM tratamientos ORDER BY nombre
     </div>
 
     <!-- DATOS DE LA CITA -->
-    <div class="border rounded p-4 bg-white shadow">
-        <h3 class="font-semibold mb-3">📅 Datos de la cita</h3>
+    <div class="border rounded p-4 bg-card shadow">
+        <h3 class="font-semibold mb-3 text-kinetic-900 dark:text-gray-100">📅 Datos de la cita</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <select name="tratamiento_id" required class="border rounded px-3 py-2" id="tratamiento">
                 <option value="">Selecciona tratamiento</option>

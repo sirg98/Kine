@@ -24,8 +24,8 @@ $terapeutas = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <!-- Columna izquierda: Lista de terapeutas -->
             <div class="w-1/3 bg-card dark:bg-gray-700 border-r border-card p-4 overflow-y-auto rounded-l-md">
                 <h3 class="text-lg font-semibold text-main mb-4">Médicos</h3>
-                <input type="text" id="buscadorTerapeutas" class="w-full mb-4 px-3 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Buscar médico...">
-                <div class="space-y-2">
+                <input type="text" id="buscadorTerapeutas" class="bg-card text-kinetic-900 dark:text-gray-100 w-full mb-4 px-3 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Buscar terapeuta...">
+                <div class="text-kinetic-900 dark:text-gray-100 space-y-2">
                     <?php foreach ($terapeutas as $d): ?>
                         <button type="button" class="w-full text-left px-3 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-gray-600 transition contacto-btn" 
                                 data-id="<?= $d['id'] ?>" 
@@ -38,11 +38,11 @@ $terapeutas = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
             <!-- Columna derecha: Chat -->
             <div class="w-2/3 flex flex-col p-4">
-            <div class="flex-1 overflow-y-auto bg-white dark:bg-gray-900 rounded-md p-4 mb-2 border border-card max-h-96 pr-2 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100" id="chatMensajes">
+            <div class="flex-1 overflow-y-auto bg-card text-kinetic-900 dark:text-gray-100 dark:bg-gray-900 rounded-md p-4 mb-2 border border-card max-h-96 pr-2 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100" id="chatMensajes">
                     <p class="text-center text-secondary">Selecciona un médico para comenzar el chat.</p>
                 </div>
                 <form id="chatForm" class="flex mt-2">
-                    <input type="text" id="chatInput" class="flex-1 border border-card rounded-l px-2 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Escribe tu mensaje..." disabled>
+                    <input type="text" id="chatInput" class="bg-card text-kinetic-900 dark:text-gray-100 flex-1 border border-card rounded-l px-2 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Escribe tu mensaje..." disabled>
                     <button type="submit" class="bg-blue-500 text-white px-4 rounded-r disabled:opacity-50" disabled>Enviar</button>
                 </form>
             </div>

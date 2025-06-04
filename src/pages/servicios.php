@@ -71,16 +71,6 @@ $tratamientos = [
 ];
 
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios - ReflexioKineTP</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="tailwind-colors.css" rel="stylesheet">
-</head>
-<body class="text-gray-900">
 <main>
     <section class="py-16">
         <div class="container mx-auto px-4">
@@ -134,5 +124,3 @@ $tratamientos = [
 
     <?php include dirname(__DIR__, 2) . '/partials/cta.php'; ?>
 </main>
-</body>
-</html>

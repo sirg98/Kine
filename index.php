@@ -29,8 +29,8 @@ if (isset($protected_routes[$url])) {
 }
 
 $routes = [
-    '' => 'partials/hero.php',
-    'inicio' => 'partials/hero.php',
+    '' => 'src/pages/home.php',
+    'inicio' => 'src/pages/home.php',
     'servicios' => 'src/pages/servicios.php',
     'nosotros' => 'src/pages/nosotros.php',
     'contacto' => 'src/pages/contacto.php',
@@ -58,6 +58,23 @@ if (!array_key_exists($url, $routes)) {
 }
 
 $main = $routes[$url];
+// Títulos y descripciones por ruta
+$meta = [
+    '' => ['title' => 'Inicio - ReflexioKineTP', 'description' => 'Bienvenido a ReflexioKineTP, tu centro de terapias.'],
+    'inicio' => ['title' => 'Inicio - ReflexioKineTP', 'description' => 'Bienvenido a ReflexioKineTP, tu centro de terapias.'],
+    'servicios' => ['title' => 'Servicios - ReflexioKineTP', 'description' => 'Conoce los servicios terapéuticos que ofrecemos.'],
+    'nosotros' => ['title' => 'Nosotros - ReflexioKineTP', 'description' => 'Aprende más sobre nuestro equipo y filosofía.'],
+    'contacto' => ['title' => 'Contacto - ReflexioKineTP', 'description' => 'Contáctanos para más información o agendar tu cita.'],
+    'login' => ['title' => 'Iniciar Sesión - ReflexioKineTP', 'description' => 'Accede a tu cuenta de paciente o terapeuta.'],
+    'paciente' => ['title' => 'Área del Paciente - ReflexioKineTP', 'description' => 'Gestión y seguimiento de tus informes y citas.'],
+    'terapeuta' => ['title' => 'Panel del Terapeuta - ReflexioKineTP', 'description' => 'Gestión de pacientes, informes y seguimiento.'],
+    'admin' => ['title' => 'Panel de Administración - ReflexioKineTP', 'description' => 'Gestión completa del sistema.'],
+    // Agrega más según tus rutas
+];
+
+// Valores por defecto si la ruta no está en $meta
+$page_title = $meta[$url]['title'] ?? 'ReflexioKineTP';
+$page_description = $meta[$url]['description'] ?? 'Centro de terapias personalizadas.';
 
 ?>
 <!DOCTYPE html>
@@ -65,7 +82,8 @@ $main = $routes[$url];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReflexioKineTP</title>
+    <title><?= htmlspecialchars($page_title) ?></title>
+    <meta name="description" content="<?= htmlspecialchars($page_description) ?>">
     <script>
         (function(){
             let shouldUseDark = false;
@@ -97,12 +115,6 @@ $main = $routes[$url];
     <?php if (empty($NO_NAVBAR)) include 'partials/navbar.php'; ?>
     <?php include $main; ?>
 
-    <?php if ($url == 'inicio' || $url == ''): ?>
-        <?php include 'partials/tratamientos.php'; ?>
-        <?php include 'partials/informacion.php'; ?>
-        <?php include 'partials/opiniones.php'; ?>
-        <?php include 'partials/cta.php'; ?>
-    <?php endif; ?>
     <?php if (empty($NO_FOOTER)) include 'partials/footer.php'; ?>
 </body>
 </html> 

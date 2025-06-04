@@ -39,7 +39,7 @@ $informes = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 <div class="relative">
                     <input type="text" 
                            id="searchInput" 
-                           class="w-full px-4 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="bg-card text-kinetic-900 dark:text-gray-100 w-full px-4 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                            placeholder="Buscar por tratamiento...">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                         <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
