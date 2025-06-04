@@ -1,5 +1,4 @@
 <?php
-
 $informe_id = intval($_GET['id'] ?? 0);
 
 $sql = "SELECT i.id, i.contenido, i.fecha, 

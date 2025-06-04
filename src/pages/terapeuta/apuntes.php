@@ -28,15 +28,21 @@ function guardarOrden($orden, $orden_path) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nueva_carpeta'])) {
     $nombre = preg_replace('/[^a-zA-Z0-9_-]/', '_', $_POST['nueva_carpeta']);
     $ruta = __DIR__ . '/uploads/apuntes/' . $nombre;
-    
-    // Verificar si ya existe una carpeta con ese nombre
+
     if (is_dir($ruta)) {
         $msg = "Ya existe una carpeta con ese nombre.";
     } else {
         mkdir($ruta, 0777, true);
+        // Añadir la nueva carpeta al orden
+        $orden = getCarpetasOrdenadas($base_dir, $orden_path);
+        if (!in_array($nombre, $orden)) {
+            $orden[] = $nombre;
+            guardarOrden($orden, $orden_path);
+        }
         $msg = "Carpeta '$nombre' creada.";
     }
 }
+
 
 // Renombrar carpeta
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['renombrar_carpeta'])) {
@@ -289,7 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_carpeta'])) 
     <!-- Modal Subir Apunte -->
     <div id="modalSubirApunte" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 w-96">
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" id="formSubirApunte">
                 <h5 class="text-xl font-semibold text-kinetic-900 mb-4">Subir nuevo apunte</h5>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-kinetic-700 mb-1">Nombre del archivo (sin extensión)</label>
@@ -496,6 +502,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_carpeta'])) 
         }
         return false;
     }
+    document.addEventListener("DOMContentLoaded", () => {
+        const formCrearCarpeta = document.querySelector("#modalCrearCarpeta form");
+
+if (formCrearCarpeta) {
+    formCrearCarpeta.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        // Guardar carpetas abiertas
+        const abiertas = Array.from(document.querySelectorAll("details[open]")).map(el =>
+            el.querySelector("summary span span").textContent.trim()
+        );
+
+        const res = await fetch(window.location.href, {
+            method: "POST",
+            body: formData
+        });
+
+        const html = await res.text();
+        const temp = document.createElement("div");
+        temp.innerHTML = html;
+
+        const nuevasCarpetas = temp.querySelector("main");
+        if (nuevasCarpetas) {
+            document.querySelector("main").innerHTML = nuevasCarpetas.innerHTML;
+
+            // Restaurar carpetas abiertas
+            document.querySelectorAll("details").forEach(el => {
+                const nombre = el.querySelector("summary span span").textContent.trim();
+                if (abiertas.includes(nombre)) {
+                    el.setAttribute("open", true);
+                }
+            });
+        }
+
+        this.closest(".fixed").classList.add("hidden");
+    });
+}
+
+
+        const formSubirApunte = document.querySelector("#formSubirApunte");
+
+        if (formSubirApunte) {
+            formSubirApunte.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        // Guardar qué carpetas estaban abiertas
+        const abiertas = Array.from(document.querySelectorAll("details[open]")).map(el =>
+            el.querySelector("summary span span").textContent.trim()
+        );
+
+        const res = await fetch(window.location.href, {
+            method: "POST",
+            body: formData
+        });
+
+        const html = await res.text();
+        const temp = document.createElement("div");
+        temp.innerHTML = html;
+
+        const nuevasCarpetas = temp.querySelector("main");
+        if (nuevasCarpetas) {
+            document.querySelector("main").innerHTML = nuevasCarpetas.innerHTML;
+
+            // Restaurar abiertas
+            document.querySelectorAll("details").forEach(el => {
+                const nombre = el.querySelector("summary span span").textContent.trim();
+                if (abiertas.includes(nombre)) {
+                    el.setAttribute("open", true);
+                }
+            });
+        }
+
+        this.closest(".fixed").classList.add("hidden");
+    });
+    }
+});
+
     </script>
 </body>
 </html>
