@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../../../components/mail.php';
+
 if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'terapeuta') {
     header('Location: /login.php');
     exit;
@@ -44,6 +46,46 @@ if (
             $update->bind_param('i', $cita_id);
             $update->execute();
         }
+    
+        // Enviar correo al paciente notificando informe
+        $paciente_stmt = $conn->prepare("SELECT nombre, email FROM usuarios WHERE id = ?");
+        $paciente_stmt->bind_param('i', $paciente_id);
+        $paciente_stmt->execute();
+        $paciente_result = $paciente_stmt->get_result();
+        $paciente = $paciente_result->fetch_assoc();
+    
+        if ($paciente && !empty($paciente['email'])) {
+            $subject = 'Tu informe estará disponible pronto en ReflexioKine';
+            $subject = '📝 Tu informe estará disponible en ReflexioKineTP';
+            $body = "
+                <h2 style='color: #0c4a6e;'>🩺 ¡Nuevo informe registrado!</h2>
+                <p>Hola <strong>{$paciente['nombre']}</strong>,</p>
+
+                <p>Tu terapeuta ha registrado un nuevo informe tras tu cita reciente.</p>
+
+                <p style='margin: 15px 0;'>
+                    📄 <strong>¿Dónde verlo?</strong><br>
+                    Puedes acceder al contenido del informe desde tu panel de paciente en los próximos minutos.
+                </p>
+                <p style='margin: 15px 0;'>
+                    💬 <strong>¿Tienes dudas?</strong><br>
+                    Puedes escribir a tu terapeuta usando el <strong>chat privado</strong> desde el panel, o bien agendar una nueva cita cuando lo necesites:
+                </p>
+                <p>
+                    👉 <a href='https://reflexiokine.es/paciente' target='_blank' style='color: #1d4ed8; text-decoration: underline;'>Agendar nueva cita</a>
+                </p>
+                <p style='margin-top: 30px;'>Gracias por confiar en nosotros.<br><strong>El equipo de ReflexioKineTP</strong></p>
+            ";
+
+    
+            try {
+                enviarEmail($paciente['email'], $subject, $body);
+            } catch (Exception $e) {
+                error_log("❌ Error al enviar el correo de informe: " . $e->getMessage());
+            }
+        }
+    
+        // Mostrar mensaje al terapeuta
         $msg = '<div class="bg-green-100 text-green-800 p-2 rounded mb-4">Informe guardado correctamente.</div>';
     } else {
         $msg = '<div class="bg-red-100 text-red-800 p-2 rounded mb-4">Error al guardar el informe: ' . htmlspecialchars($stmt->error) . '</div>';
@@ -77,7 +119,21 @@ if (
         <button id="cambiar-camara" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
             Cambiar cámara
         </button>
+        <button id="desbloqueo-manual" class="mt-2 px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition">
+            Desbloqueo manual
+        </button>
     </div>
+    <div id="modal-manual" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
+        <h2 class="text-lg font-semibold mb-4 text-center">Introduce la clave de desbloqueo</h2>
+        <input type="password" id="clave-manual" placeholder="Clave de la cita" class="w-full border rounded px-3 py-2 mb-4">
+        <div class="flex justify-end gap-2">
+            <button id="cancelar-manual" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
+            <button id="confirmar-manual" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Desbloquear</button>
+        </div>
+        <p id="manual-error" class="text-red-600 mt-2 text-sm hidden">Clave incorrecta</p>
+    </div>
+</div>
 
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <script>
@@ -87,6 +143,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form[method='POST']");
     const message = document.getElementById("qr-message");
     const switchButton = document.getElementById("cambiar-camara");
+    const btnDesbloqueo = document.getElementById('desbloqueo-manual');
+    const modalManual = document.getElementById('modal-manual');
+    const claveInput = document.getElementById('clave-manual');
+    const btnCancelar = document.getElementById('cancelar-manual');
+    const btnConfirmar = document.getElementById('confirmar-manual');
+    const errorManual = document.getElementById('manual-error');
+
+btnDesbloqueo.addEventListener('click', () => {
+    modalManual.classList.remove('hidden');
+    claveInput.value = '';
+    errorManual.classList.add('hidden');
+});
+
+btnCancelar.addEventListener('click', () => {
+    modalManual.classList.add('hidden');
+});
+
+btnConfirmar.addEventListener('click', () => {
+    const clave = claveInput.value.trim();
+    if (!clave) return;
+
+    fetch('/src/pages/terapeuta/ajax/verificar_manual.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cita_id: citaEsperada, clave })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.valido) {
+            modalManual.classList.add('hidden');
+            message.textContent = "✅ Cita verificada manualmente.";
+            qrContainer.remove();
+            form.style.display = "block";
+            qrScanner.stop().then(() => qrScanner.clear());
+        } else {
+            errorManual.classList.remove('hidden');
+        }
+    })
+    .catch(() => {
+        errorManual.textContent = "Error de conexión.";
+        errorManual.classList.remove('hidden');
+    });
+});
 
     form.style.display = "none";
 

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../../components/mail.php';
 require_once __DIR__ . '/../../../../components/qr.php';
-require_once __DIR__ . '/../../../../components/db.php'; // si no has incluido la conexión aún
+require_once __DIR__ . '/../../../../components/db.php';
 
 header('Content-Type: application/json');
 
