@@ -39,6 +39,7 @@ $routes = [
     'paciente' => 'src/pages/paciente/index.php',
     'terapeuta' => 'src/pages/terapeuta/index.php',
     'informe' => 'src/pages/terapeuta/informe.php',
+    'informepaciente' => 'src/pages/paciente/informe.php',
     'nuevoinforme' => 'src/pages/terapeuta/nuevo_informe.php',
     'apuntes' => 'src/pages/terapeuta/apuntes.php',
     'admin' => 'src/pages/admin/index.php',
@@ -78,40 +79,40 @@ $main = $routes[$url];
 // Títulos y descripciones por ruta
 $meta = [
     '' => [
-        'title' => 'Centro de Kinesiología y Bienestar - ReflexioKineTP',
-        'description' => 'Bienvenido a ReflexioKineTP, especialistas en kinesiología, salud y movimiento para el bienestar físico y emocional.'
+        'title'       => 'Inicio | Kinesiología y Terapias Personalizadas – ReflexioKineTP',
+        'description' => 'Mejora tu salud física y emocional con tratamientos de kinesiología, liberación de estrés y programas de bienestar hechos a tu medida. Descubre nuestros servicios y agenda fácilmente.'
     ],
     'inicio' => [
-        'title' => 'Inicio | Kinesiología y Salud Integral - ReflexioKineTP',
-        'description' => 'Descubre cómo mejorar tu salud y reducir el estrés con nuestros tratamientos personalizados de kinesiología.'
+        'title'       => 'Inicio | Kinesiología y Terapias Personalizadas – ReflexioKineTP',
+        'description' => 'Mejora tu salud física y emocional con tratamientos de kinesiología, liberación de estrés y programas de bienestar hechos a tu medida. Descubre nuestros servicios y agenda fácilmente.'
     ],
     'servicios' => [
-        'title' => 'Servicios Terapéuticos en Movimiento y Dolor - ReflexioKineTP',
-        'description' => 'Explora nuestras terapias centradas en movimiento, reducción del dolor, bienestar y salud integral.'
+        'title'       => 'Servicios | Terapias y Servicios de Bienestar – ReflexioKineTP',
+        'description' => 'Explora nuestras terapias de movimiento, alivio del dolor, reeducación postural y cuidados holísticos. Expertos en salud integral para alcanzar tu máximo equilibrio corporal y mental.'
     ],
     'nosotros' => [
-        'title' => 'Sobre Nosotros - Especialistas en Bienestar y Salud',
-        'description' => 'Conoce al equipo de ReflexioKineTP, expertos en estrés, salud emocional y tratamientos de kinesiología.'
+        'title'       => 'Sobre Nosotros | Expertos en Kinesiología y Salud Integral – ReflexioKineTP',
+        'description' => 'Conoce al equipo multidisciplinar de ReflexioKineTP: kinesiólogos, fisioterapeutas y especialistas en salud emocional dedicados a tu bienestar y recuperación total.'
     ],
     'contacto' => [
-        'title' => 'Contacto - Agenda tu sesión de kinesiología hoy',
-        'description' => '¿Tienes dudas o quieres pedir cita? Contacta con ReflexioKineTP y recibe atención personalizada por parte de nuestros profesionales.'
+        'title'       => 'Contacto | Agenda tu Sesión de Kinesiología – ReflexioKineTP',
+        'description' => '¿Dudas o necesitas una cita? Contacta con ReflexioKineTP para recibir atención personalizada, resolver preguntas sobre terapias y programar tu próxima sesión de bienestar.'
     ],
     'login' => [
-        'title' => 'Iniciar Sesión - Área Personal ReflexioKineTP',
-        'description' => 'Accede a tu cuenta para ver citas, informes o gestionar tu tratamiento terapéutico.'
+        'title'       => 'Iniciar Sesión | Área Personal de ReflexioKineTP',
+        'description' => 'Accede a tu cuenta para consultar citas, informes terapéuticos y gestionar tu tratamiento de kinesiología de forma segura y confidencial.'
     ],
     'paciente' => [
-        'title' => 'Área del Paciente - Historial de Citas y Salud',
-        'description' => 'Consulta tus informes médicos, agenda nuevas sesiones y sigue tu evolución terapéutica.'
+        'title'       => 'Área del Paciente | Historial de Citas y Salud – ReflexioKineTP',
+        'description' => 'Revisa informes médicos, sigue tu progreso, descarga documentos y agenda nuevas citas de kinesiología en un panel intuitivo diseñado para tu comodidad y seguimiento continuo.'
     ],
     'terapeuta' => [
-        'title' => 'Panel del Terapeuta - Gestión de Pacientes y Bienestar',
-        'description' => 'Administra sesiones, informes y tratamientos personalizados centrados en la salud y el movimiento.'
+        'title'       => 'Panel del Terapeuta | Gestión de Pacientes y Terapias – ReflexioKineTP',
+        'description' => 'Administra sesiones, registra informes y diseña tratamientos personalizados con herramientas profesionales que optimizan la atención y el bienestar de cada paciente.'
     ],
     'admin' => [
-        'title' => 'Panel de Administración - ReflexioKineTP',
-        'description' => 'Gestión del sistema, usuarios, terapeutas y control general de los servicios ofrecidos.'
+        'title'       => 'Panel de Administración | Control y Gestión – ReflexioKineTP',
+        'description' => 'Supervisa usuarios, terapeutas, servicios y configuraciones globales del sistema para mantener un funcionamiento óptimo y seguro en ReflexioKineTP.'
     ]
 ];
 

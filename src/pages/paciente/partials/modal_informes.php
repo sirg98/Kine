@@ -68,7 +68,7 @@ $informes = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                         <p>Fecha: <?= $fecha ?></p>
                                     </div>
                                 </div>
-                                <a href="informe?id=<?= $informe['informe_id'] ?>" 
+                                <a href="informepaciente?id=<?= $informe['informe_id'] ?>" 
                                    class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-200">
                                     Ver Informe
                                 </a>

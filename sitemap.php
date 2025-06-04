@@ -2,7 +2,7 @@
 header('Content-Type: application/xml; charset=utf-8');
 
 // Configuración
-$base_url = 'https://reflexiokine.es'; // Cambia esto por tu dominio real
+$base_url = 'https://reflexiokinetp.es'; // Cambia esto por tu dominio real
 $lastmod = date('Y-m-d');
 
 // Rutas públicas que queremos incluir en el sitemap
