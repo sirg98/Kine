@@ -2,9 +2,18 @@
 require '../../../../components/db.php';
 
 header('Content-Type: application/json');
+function logError($mensaje) {
+    $logDir = __DIR__ . '/../../../../logs';
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0755, true);
+    }
+    $logFile = $logDir . '/admin.log';
+    $timestamp = date('[Y-m-d H:i:s]');
+    file_put_contents($logFile, "$timestamp $mensaje" . PHP_EOL, FILE_APPEND);
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['success' => false, 'error' => 'Método no permitido. Se requiere POST.']);
+    echo json_encode(['success' => false, 'error' => 'Método no permitido.']);
     exit;
 }
 
@@ -24,7 +33,8 @@ $stmt = $conn->prepare("
     WHERE i.id = ?
 ");
 if (!$stmt) {
-    echo json_encode(['success' => false, 'error' => 'Error al preparar la consulta: ' . $conn->error]);
+    logError("Error al preparar consulta de verificación (informe_id=$id): " . $conn->error);
+    echo json_encode(['success' => false, 'error' => 'Error al preparar la consulta']);
     exit;
 }
 
@@ -44,7 +54,8 @@ if ($stmt->fetch()) {
     // Eliminar el informe
     $deleteStmt = $conn->prepare("DELETE FROM informes WHERE id = ?");
     if (!$deleteStmt) {
-        echo json_encode(['success' => false, 'error' => 'Error al preparar la eliminación: ' . $conn->error]);
+        logError("Error al preparar eliminación de informe (id=$id): " . $conn->error);
+        echo json_encode(['success' => false, 'error' => 'Error al preparar la eliminación']);
         exit;
     }
 
@@ -53,10 +64,12 @@ if ($stmt->fetch()) {
     if ($success) {
         echo json_encode(['success' => true]);
     } else {
+        logError("Error al ejecutar eliminación de informe (id=$id): " . $deleteStmt->error);
         echo json_encode(['success' => false, 'error' => 'Error al eliminar el informe.']);
     }
     $deleteStmt->close();
 } else {
+    logError("Informe no encontrado para eliminación (id=$id).");
     echo json_encode(['success' => false, 'error' => 'Informe no encontrado.']);
 }
 

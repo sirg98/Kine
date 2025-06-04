@@ -36,6 +36,6 @@
     </div>
   </div>
   <div class="border-t border-gray text-center text-xs py-4 w-[90%] mx-auto">
-    © 2025 KineticCare. Todos los derechos reservados. &nbsp; | &nbsp; <a href="#" class="underline">Términos de servicio</a> &nbsp; | &nbsp; <a href="#" class="underline">Política de privacidad</a> &nbsp; | &nbsp; <a href="#" class="underline">Política de cookies</a>
+    © 2025 KineticCare. Todos los derechos reservados. &nbsp; | &nbsp; <a href="#" title="Términos de servicio" class="underline">Términos de servicio</a> &nbsp; | &nbsp; <a href="#" title="Política de privacidad" class="underline">Política de privacidad</a> &nbsp; | &nbsp; <a href="#" title="Política de cookies" class="underline">Política de cookies</a>
   </div>
 </footer>

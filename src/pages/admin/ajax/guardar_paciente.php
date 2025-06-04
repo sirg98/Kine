@@ -8,6 +8,16 @@ function generarPasswordTemporal($longitud = 10) {
     return bin2hex(random_bytes($longitud / 2));
 }
 
+function logError($mensaje) {
+    $logDir = __DIR__ . '/../../../../logs';
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0755, true);
+    }
+    $logFile = $logDir . '/admin.log';
+    $timestamp = date('[Y-m-d H:i:s]');
+    file_put_contents($logFile, "$timestamp $mensaje" . PHP_EOL, FILE_APPEND);
+}
+
 $response = ['success' => false, 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -44,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!mysqli_query($conn, $sql_usuario)) {
         $response['message'] = '❌ Error al registrar el paciente: ' . mysqli_error($conn);
+        logError("Error al registrar paciente ($email): " . mysqli_error($conn));
         echo json_encode($response);
         exit;
     }
@@ -56,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!mysqli_query($conn, $sql_cita)) {
         $response['message'] = '❌ Error al registrar la cita: ' . mysqli_error($conn);
+        logError("Error al registrar cita para paciente $paciente_id: " . mysqli_error($conn));
         echo json_encode($response);
         exit;
     }
@@ -91,13 +103,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <p style='margin-top: 20px;'>🗓️ Además, aquí tienes el código QR para acceder a los detalles de tu cita:</p>
         <img src='cid:qrimage' alt='QR Code' style='max-width: 200px;' />
-        <p>En caso de que no funcione el link anterior: <a href='$url' target='_blank'>$url</a></p>
         <p style='margin-top: 30px;'>Gracias por confiar en nosotros.<br><strong>El equipo de ReflexioKineTP</strong></p>
     ";
 
     $mail_result = enviarEmail($email, $subject, $body, $tmp_qr_path);
     if ($mail_result !== true) {
-        $response['message'] = '❌ Error al enviar el correo: ' . $mail_result;
+        logError("Error al enviar correo a $email: $mail_result");
+        $response['message'] = '❌ Error al enviar el correo:';
     } else {
         $response['success'] = true;
         $response['message'] = '✅ Cita registrada correctamente. El paciente ha sido creado y notificado.';

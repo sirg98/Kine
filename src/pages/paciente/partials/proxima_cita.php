@@ -30,14 +30,14 @@
 <?php endif; ?>
 
 <div id="successPanel" class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white dark:bg-gray-800 scale-95 transition-transform duration-300">
+    <div id="successPanelContent" class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-card border-card dark:bg-gray-800 transition-transform duration-300">
         <div class="mt-3 text-center">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
                 <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mt-4">¡Tu Código QR!</h3>
+            <h3 class="text-lg leading-6 font-medium bg-card text-kinetic-900 dark:text-white mt-4">¡Tu Código QR!</h3>
             <div class="mt-4">
                 <p class="text-sm text-gray-500 dark:text-gray-400">Presenta este código QR en tu cita:</p>
                 <div class="mt-2" id="qrPreview">
@@ -59,17 +59,6 @@
 </div>
 
 <script>
-function verQRDesdeProxima(citaId) {
-    citaIdActual = citaId;
-
-    const panel = document.getElementById('successPanel');
-    panel.classList.remove('hidden');
-    panel.style.opacity = '1';
-    panel.querySelector('.relative').style.transform = 'scale(1)';
-    document.body.style.overflow = 'hidden';
-}
-
-
 function enviarQRPorCorreoDesdeProxima(citaId) {
     if (!citaId) return alert('ID no disponible');
 
@@ -98,14 +87,42 @@ function enviarQRPorCorreoDesdeProxima(citaId) {
 
 }
 
+function verQRDesdeProxima(citaId) {
+    citaIdActual = citaId;
+
+    const panel = document.getElementById('successPanel');
+    const content = document.getElementById('successPanelContent');
+
+    panel.classList.remove('hidden');
+    panel.style.opacity = '1';
+
+    // Forzamos escala inicial antes de animar
+    content.style.transform = 'scale(0.95)';
+    requestAnimationFrame(() => {
+        content.style.transform = 'scale(1)';
+    });
+
+    document.body.style.overflow = 'hidden';
+}
 
 function closeSuccessPanel() {
     const panel = document.getElementById('successPanel');
+    const content = document.getElementById('successPanelContent');
+
     panel.style.opacity = '0';
-    panel.querySelector('.relative').style.transform = 'scale(0.95)';
+    content.style.transform = 'scale(0.95)';
+
     setTimeout(() => {
         panel.classList.add('hidden');
         document.body.style.overflow = 'auto';
     }, 300);
 }
+
+document.getElementById('successPanel').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeSuccessPanel();
+    }
+});
+
+
 </script>

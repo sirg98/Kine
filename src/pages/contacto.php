@@ -119,12 +119,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- INFORMACIÓN DE CONTACTO -->
             <div class="bg-card text-kinetic-900 dark:bg-gray-900 rounded-xl shadow-sm p-8 flex flex-col space-y-6">
                 <h2 class="font-semibold text-xl mb-2 text-main">Información de contacto</h2>
-                <div class="text-sm text-kinetic-700 space-y-2">
+                <address class="not-italic text-sm text-kinetic-700 space-y-2">
                     <p><strong>📍 Dirección:</strong><br>123 Wellness Avenue, Healing City, HC 12345, España</p>
-                    <p><strong>📞 Teléfono:</strong><br>+34 600 132 456 / +34 910 456 789</p>
-                    <p><strong>📧 Email:</strong><br><a href="mailto:info@reflexiokinetp.es" class="text-kinetic-600 hover:underline">info@reflexiokinetp.es</a></p>
-                    <p><strong>⏰ Horario:</strong><br>Lunes - Viernes: 9:00 - 20:00<br>Sábados: 10:00 - 14:00<br>Domingos: Cerrado</p>
-                </div>
+                    <p><strong>📞 Teléfono:</strong><br><a href="tel:+34600132456">+34 600 132 456</a> / <a href="tel:+34910456789">+34 910 456 789</a></p>
+                </address>
                 <div class="flex items-center justify-center mt-4">
                     <a href="https://wa.me/34600132456?text=Hola,%20quiero%20información%20o%20reservar%20una%20cita" target="_blank" class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-3 rounded-full shadow-lg transition">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A12.07 12.07 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.6 5.97L0 24l6.22-1.63A12.07 12.07 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.21-1.25-6.23-3.48-8.52zM12 22c-1.85 0-3.68-.5-5.25-1.44l-.38-.22-3.69.97.99-3.59-.25-.37A9.94 9.94 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.2-7.8c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.61.14-.18.28-.28.7.9.86.16.18.32.2.6.07.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.34.42-.51.14-.17.18-.29.28-.48.09-.18.05-.36-.02-.5-.07-.14-.61-1.47-.84-2.01-.22-.53-.45-.46-.61-.47-.16-.01-.36-.01-.56-.01-.2 0-.52.07-.8.34-.28.28-1.08 1.06-1.08 2.58 0 1.52 1.1 2.99 1.25 3.2.15.21 2.17 3.32 5.27 4.52.74.32 1.32.51 1.77.65.74.24 1.41.21 1.94.13.59-.09 1.65-.67 1.88-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.18-.53-.32z"/></svg>

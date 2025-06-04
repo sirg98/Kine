@@ -56,21 +56,65 @@ if (!array_key_exists($url, $routes)) {
     header("Location: /error");
     exit;
 }
+// Redirigir si usuario ya autenticado intenta acceder a /login
+if ($url === 'login' && isset($_SESSION['tipo'])) {
+    switch ($_SESSION['tipo']) {
+        case 'admin':
+            header('Location: /admin');
+            exit;
+        case 'terapeuta':
+            header('Location: /terapeuta');
+            exit;
+        case 'paciente':
+            header('Location: /paciente');
+            exit;
+        default:
+            header('Location: /logout');
+            exit;
+    }
+}
 
 $main = $routes[$url];
 // Títulos y descripciones por ruta
 $meta = [
-    '' => ['title' => 'Inicio - ReflexioKineTP', 'description' => 'Bienvenido a ReflexioKineTP, tu centro de terapias.'],
-    'inicio' => ['title' => 'Inicio - ReflexioKineTP', 'description' => 'Bienvenido a ReflexioKineTP, tu centro de terapias.'],
-    'servicios' => ['title' => 'Servicios - ReflexioKineTP', 'description' => 'Conoce los servicios terapéuticos que ofrecemos.'],
-    'nosotros' => ['title' => 'Nosotros - ReflexioKineTP', 'description' => 'Aprende más sobre nuestro equipo y filosofía.'],
-    'contacto' => ['title' => 'Contacto - ReflexioKineTP', 'description' => 'Contáctanos para más información o agendar tu cita.'],
-    'login' => ['title' => 'Iniciar Sesión - ReflexioKineTP', 'description' => 'Accede a tu cuenta de paciente o terapeuta.'],
-    'paciente' => ['title' => 'Área del Paciente - ReflexioKineTP', 'description' => 'Gestión y seguimiento de tus informes y citas.'],
-    'terapeuta' => ['title' => 'Panel del Terapeuta - ReflexioKineTP', 'description' => 'Gestión de pacientes, informes y seguimiento.'],
-    'admin' => ['title' => 'Panel de Administración - ReflexioKineTP', 'description' => 'Gestión completa del sistema.'],
-    // Agrega más según tus rutas
+    '' => [
+        'title' => 'Centro de Kinesiología y Bienestar - ReflexioKineTP',
+        'description' => 'Bienvenido a ReflexioKineTP, especialistas en kinesiología, salud y movimiento para el bienestar físico y emocional.'
+    ],
+    'inicio' => [
+        'title' => 'Inicio | Kinesiología y Salud Integral - ReflexioKineTP',
+        'description' => 'Descubre cómo mejorar tu salud y reducir el estrés con nuestros tratamientos personalizados de kinesiología.'
+    ],
+    'servicios' => [
+        'title' => 'Servicios Terapéuticos en Movimiento y Dolor - ReflexioKineTP',
+        'description' => 'Explora nuestras terapias centradas en movimiento, reducción del dolor, bienestar y salud integral.'
+    ],
+    'nosotros' => [
+        'title' => 'Sobre Nosotros - Especialistas en Bienestar y Salud',
+        'description' => 'Conoce al equipo de ReflexioKineTP, expertos en estrés, salud emocional y tratamientos de kinesiología.'
+    ],
+    'contacto' => [
+        'title' => 'Contacto - Agenda tu sesión de kinesiología hoy',
+        'description' => '¿Tienes dudas o quieres pedir cita? Contacta con ReflexioKineTP y recibe atención personalizada por parte de nuestros profesionales.'
+    ],
+    'login' => [
+        'title' => 'Iniciar Sesión - Área Personal ReflexioKineTP',
+        'description' => 'Accede a tu cuenta para ver citas, informes o gestionar tu tratamiento terapéutico.'
+    ],
+    'paciente' => [
+        'title' => 'Área del Paciente - Historial de Citas y Salud',
+        'description' => 'Consulta tus informes médicos, agenda nuevas sesiones y sigue tu evolución terapéutica.'
+    ],
+    'terapeuta' => [
+        'title' => 'Panel del Terapeuta - Gestión de Pacientes y Bienestar',
+        'description' => 'Administra sesiones, informes y tratamientos personalizados centrados en la salud y el movimiento.'
+    ],
+    'admin' => [
+        'title' => 'Panel de Administración - ReflexioKineTP',
+        'description' => 'Gestión del sistema, usuarios, terapeutas y control general de los servicios ofrecidos.'
+    ]
 ];
+
 
 // Valores por defecto si la ruta no está en $meta
 $page_title = $meta[$url]['title'] ?? 'ReflexioKineTP';
@@ -84,6 +128,14 @@ $page_description = $meta[$url]['description'] ?? 'Centro de terapias personaliz
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($page_title) ?></title>
     <meta name="description" content="<?= htmlspecialchars($page_description) ?>">
+    <!-- Open Graph -->
+    <meta property="og:title" content="<?= htmlspecialchars($page_title) ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($page_description) ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://<?= $_SERVER['HTTP_HOST'] ?>/<?= htmlspecialchars($url) ?>">
+    <meta property="og:image" content="https://reflexiokinetp.es/assets/img/logo-og.jpg">
+
+    <link rel="canonical" href="https://<?= $_SERVER['HTTP_HOST'] ?>/<?= htmlspecialchars($url) ?>" />
     <script>
         (function(){
             let shouldUseDark = false;
@@ -107,7 +159,34 @@ $page_description = $meta[$url]['description'] ?? 'Centro de terapias personaliz
             }
         })();
     </script>
-
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "ReflexioKineTP",
+  "url": "https://reflexiokine.es",
+  "logo": "https://reflexiokine.es/assets/img/logo-og.jpg",
+  "description": "Centro de kinesiología, salud integral y bienestar físico-emocional.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "123 Wellness Avenue",
+    "addressLocality": "Healing City",
+    "postalCode": "HC 12345",
+    "addressCountry": "ES"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+34 600 132 456",
+    "contactType": "customer support",
+    "areaServed": "ES",
+    "availableLanguage": ["Spanish", "English"]
+  },
+  "sameAs": [
+    "https://www.facebook.com/ReflexioKineTP",
+    "https://www.instagram.com/ReflexioKineTP"
+  ]
+}
+</script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="tailwind-colors.css" rel="stylesheet">
 </head>

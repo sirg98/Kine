@@ -1,9 +1,22 @@
 RewriteEngine On
 RewriteBase /
 
+# Redirigir www a sin www
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Redirigir HTTP a HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
 # No redirigir sitemap.php
 RewriteRule ^sitemap\.php$ - [L]
 
+# Reescritura para index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+
+# Desactivar listado de directorios
+Options -Indexes

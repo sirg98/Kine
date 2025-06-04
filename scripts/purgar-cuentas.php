@@ -2,9 +2,9 @@
 require __DIR__ . '/../components/db.php';
 
 $logDir = __DIR__ . '/../logs';
-$logFile = $logDir . '/purgar_cuentas.log';
+$logFile = $logDir . '/purga.log';
 
-// Asegúrate de que el directorio exista
+// Crear directorio de logs si no existe
 if (!is_dir($logDir)) {
     mkdir($logDir, 0755, true);
 }
@@ -15,9 +15,14 @@ $sql = "DELETE FROM usuarios WHERE eliminado = 1 AND fecha_eliminacion <= NOW()"
 $result = mysqli_query($conn, $sql);
 
 if ($result) {
-    $msg = "$timestamp Usuarios eliminados permanentemente: " . mysqli_affected_rows($conn) . PHP_EOL;
+    $filas = mysqli_affected_rows($conn);
+    $msg = "$timestamp Usuarios eliminados permanentemente: $filas" . PHP_EOL;
+    echo "✅ $filas usuario(s) eliminados permanentemente.";
 } else {
     $msg = "$timestamp Error al purgar cuentas: " . mysqli_error($conn) . PHP_EOL;
+    echo "❌ Error al purgar cuentas. Consulta el log para más detalles.";
 }
 
+// Guardar en el log
 file_put_contents($logFile, $msg, FILE_APPEND);
+?>

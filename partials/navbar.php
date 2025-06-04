@@ -9,16 +9,17 @@
   }
 </script>
 <header class="shadow-sm transition-colors duration-200">
-  <div class="container mx-auto flex items-center justify-between py-6 px-6">
+<div class="container mx-auto flex items-center justify-between py-6 px-6 flex-wrap md:flex-nowrap gap-4">
+
     <div class="flex items-center space-x-3">
       <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-      <span class="font-bold text-2xl text-main">KineticCare</span>
+      <span class="font-bold text-2xl text-main">ReflexioKineTP</span>
     </div>
     <nav class="hidden md:flex space-x-8">
-      <a href="/inicio" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Inicio</a>
-      <a href="/servicios" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Servicios</a>
-      <a href="/nosotros" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Sobre Nosotros</a>
-      <a href="/contacto" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Contactanos</a>
+      <a href="/inicio" title="Ir a la página de inicio" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Inicio</a>
+      <a href="/servicios" title="Ver los servicios de kinesiología" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Servicios</a>
+      <a href="/nosotros" title="Conocer al equipo de ReflexioKineTP" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Sobre Nosotros</a>
+      <a href="/contacto" title="Contactar con ReflexioKineTP" class="text-main  hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium transition-colors duration-200">Contactanos</a>
     </nav>
     <div class="flex items-center space-x-4">
       <button id="toggleIcon" class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
@@ -56,9 +57,9 @@
             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </button>
           <div id="admin-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-lg shadow-lg py-2 z-50 hidden">
-            <a href="admin" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Panel Admin</a>
-            <a href="ajustes" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Ajustes</a>
-            <a href="logout" class="block px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800">Cerrar sesión</a>
+            <a href="admin" title="Ir al panel de administración" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Panel Admin</a>
+            <a href="ajustes" title="Ajustar configuración" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Ajustes</a>
+            <a href="logout" title="Cerrar sesión" class="block px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800">Cerrar sesión</a>
           </div>
         </div>
       <?php elseif (isset($_SESSION['tipo']) && ($_SESSION['tipo'] == 'paciente' || $_SESSION['tipo'] == 'terapeuta')): ?>
@@ -74,19 +75,19 @@
           </button>
           <div id="user-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-lg shadow-lg py-2 z-50 hidden">
             <?php if ($_SESSION['tipo'] == 'paciente'): ?>
-              <a href="paciente" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Portal Paciente</a>
+              <a href="paciente" title="Ir al portal del paciente" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Portal Paciente</a>
             <?php else: ?>
-              <a href="terapeuta" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Portal Terapeuta</a>
+              <a href="terapeuta" title="Ir al portal del terapeuta" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Portal Terapeuta</a>
             <?php endif; ?>
-            <a href="ajustes" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Ajustes</a>
-            <a href="logout" class="block px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800">Cerrar sesión</a>
+            <a href="ajustes" title="Ir al panel de configuración" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Ajustes</a>
+            <a href="logout" title="Cerrar sesión" class="block px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800">Cerrar sesión</a>
           </div>
         </div>
       <?php elseif (isset($_SESSION['tipo'])): ?>
         <!-- Si hay otro tipo de usuario -->
-        <a href="logout" class="hidden md:inline-block px-5 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Cerrar sesión</a>
+        <a href="logout" title="Cerrar sesión" class="hidden md:inline-block px-5 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Cerrar sesión</a>
       <?php else: ?>
-        <a href="login" class="hidden md:inline-block px-5 py-2 btn-blue rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Iniciar sesión</a>
+        <a href="login" title="Iniciar sesión" class="hidden md:inline-block px-5 py-2 btn-blue rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Iniciar sesión</a>
       <?php endif; ?>
       <!-- Botón hamburguesa solo en móvil -->
       <button id="menu-btn" class="md:hidden text-main focus:outline-none ml-4">
@@ -110,30 +111,30 @@
         </svg>
       </button>
     </div>
-    <a href="inicio" class="block text-main hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium text-center">Inicio</a>
-    <a href="servicios" class="block text-main hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium text-center">Servicios</a>
-    <a href="nosotros" class="block text-main hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium text-center">Sobre Nosotros</a>
-    <a href="contacto" class="block text-main hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium text-center">Contactanos</a>
+    <a href="inicio" title="Ir a la página de inicio" class="block text-main hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium text-center">Inicio</a>
+    <a href="servicios" title="Ver los servicios de kinesiología" class="block text-main hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium text-center">Servicios</a>
+    <a href="nosotros" title="Conocer al equipo de ReflexioKineTP" class="block text-main hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium text-center">Sobre Nosotros</a>
+    <a href="contacto" title="Contactar con ReflexioKineTP" class="block text-main hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 text-lg font-medium text-center">Contactanos</a>
     <?php if (isset($_SESSION['tipo']) && $_SESSION['tipo'] == 'admin'): ?>
       <div class="flex flex-col space-y-1">
-        <a href="/src/pages/admin/index.php" class="block px-5 py-2 btn-blue rounded-lg font-medium text-center">Panel Admin</a>
-        <a href="/src/pages/ajustes.php" class="block px-5 py-2 bg-gray-200 dark:bg-gray-800 rounded-lg font-medium text-center">Ajustes</a>
-        <a href="/logout.php" class="block px-5 py-2 bg-red-500 text-white rounded-lg font-medium text-center">Cerrar sesión</a>
+        <a href="/src/pages/admin/index.php" title="Ir al panel de administración" class="block px-5 py-2 btn-blue rounded-lg font-medium text-center">Panel Admin</a>
+        <a href="/src/pages/ajustes.php" title="Ir al panel de configuración" class="block px-5 py-2 bg-gray-200 dark:bg-gray-800 rounded-lg font-medium text-center">Ajustes</a>
+        <a href="/logout.php" title="Cerrar sesión" class="block px-5 py-2 bg-red-500 text-white rounded-lg font-medium text-center">Cerrar sesión</a>
       </div>
     <?php elseif (isset($_SESSION['tipo']) && ($_SESSION['tipo'] == 'paciente' || $_SESSION['tipo'] == 'terapeuta')): ?>
       <div class="flex flex-col space-y-1">
         <?php if ($_SESSION['tipo'] == 'paciente'): ?>
-          <a href="paciente" class="block px-5 py-2 btn-blue rounded-lg font-medium text-center">Portal Paciente</a>
+          <a href="paciente" title="Ir al portal del paciente" class="block px-5 py-2 btn-blue rounded-lg font-medium text-center">Portal Paciente</a>
         <?php else: ?>
-          <a href="terapeuta" class="block px-5 py-2 btn-blue rounded-lg font-medium text-center">Portal Terapeuta</a>
+          <a href="terapeuta" title="Ir al portal del terapeuta" class="block px-5 py-2 btn-blue rounded-lg font-medium text-center">Portal Terapeuta</a>
         <?php endif; ?>
-        <a href="ajustes" class="block px-5 py-2 bg-gray-200 dark:bg-gray-800 rounded-lg font-medium text-center">Ajustes</a>
-        <a href="logout" class="block px-5 py-2 bg-red-500 text-white rounded-lg font-medium text-center">Cerrar sesión</a>
+        <a href="ajustes" title="Ir al panel de configuración" class="block px-5 py-2 bg-gray-200 dark:bg-gray-800 rounded-lg font-medium text-center">Ajustes</a>
+        <a href="logout" title="Cerrar sesión" class="block px-5 py-2 bg-red-500 text-white rounded-lg font-medium text-center">Cerrar sesión</a>
       </div>
     <?php elseif (isset($_SESSION['tipo'])): ?>
-      <a href="logout" class="block px-5 py-2 bg-red-500 text-white rounded-lg font-medium text-center">Cerrar sesión</a>
+      <a href="logout" title="Cerrar sesión" class="block px-5 py-2 bg-red-500 text-white rounded-lg font-medium text-center">Cerrar sesión</a>
     <?php else: ?>
-      <a href="login" class="block px-5 py-2 btn-blue rounded-lg font-medium text-center">Iniciar sesión</a>
+      <a href="login" title="Iniciar sesión" class="block px-5 py-2 btn-blue rounded-lg font-medium text-center">Iniciar sesión</a>
     <?php endif; ?>
   </div>
 </div>
