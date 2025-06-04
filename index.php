@@ -160,33 +160,33 @@ $page_description = $meta[$url]['description'] ?? 'Centro de terapias personaliz
         })();
     </script>
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "ReflexioKineTP",
-  "url": "https://reflexiokine.es",
-  "logo": "https://reflexiokine.es/assets/img/logo-og.jpg",
-  "description": "Centro de kinesiología, salud integral y bienestar físico-emocional.",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "123 Wellness Avenue",
-    "addressLocality": "Healing City",
-    "postalCode": "HC 12345",
-    "addressCountry": "ES"
-  },
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "+34 600 132 456",
-    "contactType": "customer support",
-    "areaServed": "ES",
-    "availableLanguage": ["Spanish", "English"]
-  },
-  "sameAs": [
-    "https://www.facebook.com/ReflexioKineTP",
-    "https://www.instagram.com/ReflexioKineTP"
-  ]
-}
-</script>
+    {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ReflexioKineTP",
+    "url": "https://reflexiokine.es",
+    "logo": "https://reflexiokine.es/assets/img/logo-og.jpg",
+    "description": "Centro de kinesiología, salud integral y bienestar físico-emocional.",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Wellness Avenue",
+        "addressLocality": "Healing City",
+        "postalCode": "HC 12345",
+        "addressCountry": "ES"
+    },
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+34 600 132 456",
+        "contactType": "customer support",
+        "areaServed": "ES",
+        "availableLanguage": ["Spanish", "English"]
+    },
+    "sameAs": [
+        "https://www.facebook.com/ReflexioKineTP",
+        "https://www.instagram.com/ReflexioKineTP"
+    ]
+    }
+    </script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="tailwind-colors.css" rel="stylesheet">
 </head>

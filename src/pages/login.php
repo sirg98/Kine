@@ -43,6 +43,10 @@ $title = "Iniciar Sesión - ReflexioKineTP";
                 </button>
             </div>
         </div>
+        <div class="flex items-center">
+            <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+            <label for="remember" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Recordarme</label>
+        </div>
         <button type="submit" class="w-full bg-kinetic-500 text-white font-semibold rounded py-2 hover:bg-kinetic-600">Acceder</button>
     </form>
 

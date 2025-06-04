@@ -23,6 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
             $_SESSION['tipo'] = $row['tipo'];
             $_SESSION['id'] = $row['id'];
 
+            if (isset($_POST['remember'])) {
+                $cookie_data = json_encode([
+                    'id' => $row['id'],
+                    'tipo' => $row['tipo']
+                ]);
+                setcookie('remember_me', base64_encode($cookie_data), time() + (86400 * 7), "/");
+            }
+
             // Redirigir según tipo
             switch ($row['tipo']) {
                 case 'admin':
