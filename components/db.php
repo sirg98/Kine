@@ -13,12 +13,9 @@ $user = $_ENV['DB_USER'];
 $pass = $_ENV['DB_PASS'];
 
 // Función para registrar errores
-function logError($mensaje) {
-    $logDir = __DIR__ . '/../src/pages/admin/logs';
-    if (!is_dir($logDir)) {
-        mkdir($logDir, 0755, true);
-    }
-    $logFile = $logDir . '/admin.log';
+function logErrorBBDD($mensaje) {
+
+    $logFile = __DIR__ . '/../src/pages/admin/logs/admin.log';
     $timestamp = date('[Y-m-d H:i:s]');
     file_put_contents($logFile, "$timestamp $mensaje" . PHP_EOL, FILE_APPEND);
 }
@@ -34,7 +31,7 @@ if ($conn) {
 }
 
 // Si falla la conexión, registrar y mostrar página bonita
-logError("Error al conectar con la base de datos: " . mysqli_connect_error());
+logErrorBBDD("Error al conectar con la base de datos: " . mysqli_connect_error());
 
 http_response_code(500);
 ?>

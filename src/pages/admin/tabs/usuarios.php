@@ -19,7 +19,7 @@ $result = mysqli_query($conn, $sql);
 </div>
 
 <?php if (mysqli_num_rows($result) > 0): ?>
-    <div class="h-96 overflow-y-auto">
+    <div class="h-96 overflow-y-auto ">
         <table class="w-full border-collapse dark:kinetic-900 text-secondary">
             <thead>
                 <tr class="bg-gray-100 text-gray-900">

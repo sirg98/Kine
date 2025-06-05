@@ -2,8 +2,7 @@
 $mensaje_enviado = false;
 $error_envio = '';
 
-$logDir = '../src/pages/admin/logs';
-$logFile = $logDir . '/admin.log';
+$logFile = __DIR__ . '/../src/pages/admin/logs/admin.log';
 
 if (!is_dir($logDir)) {
     mkdir($logDir, 0755, true);

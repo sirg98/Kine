@@ -1,6 +1,6 @@
 <?php
 // Obtener todos los tratamientos
-$sql = "SELECT id, nombre, descripcion, duracion, precio FROM tratamientos ORDER BY nombre ASC";
+$sql = "SELECT id, nombre, descripcion, duracion, precio, icon, beneficios, imagen FROM tratamientos ORDER BY nombre ASC";
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -27,6 +27,9 @@ $result = mysqli_query($conn, $sql);
                     <th class="px-4 py-2 text-left">Descripción</th>
                     <th class="px-4 py-2 text-left">Duración</th>
                     <th class="px-4 py-2 text-left">Precio</th>
+                    <th class="px-4 py-2 text-left">Icono</th>
+                    <th class="px-4 py-2 text-left">Beneficios</th>
+                    <th class="px-4 py-2 text-left">Imagen</th>
                     <th class="px-4 py-2 text-left">Acciones</th>
                 </tr>
             </thead>
@@ -37,9 +40,31 @@ $result = mysqli_query($conn, $sql);
                         <td class="px-4 py-2"><?= htmlspecialchars($row['descripcion']) ?></td>
                         <td class="px-4 py-2"><?= htmlspecialchars($row['duracion']) ?> min</td>
                         <td class="px-4 py-2"><?= number_format($row['precio'], 2) ?> €</td>
+
+                        <td class="px-4 py-2"><?= $row['icon'] ?></td>
+
+                        <td class="px-4 py-2 text-sm">
+                            <?php
+                                $beneficios = json_decode($row['beneficios'], true);
+                                if (is_array($beneficios)) {
+                                    echo '<ul class="list-disc pl-4">';
+                                    foreach ($beneficios as $b) {
+                                        echo '<li>' . htmlspecialchars($b) . '</li>';
+                                    }
+                                    echo '</ul>';
+                                } else {
+                                    echo htmlspecialchars($row['beneficios']);
+                                }
+                            ?>
+                        </td>
+
+                        <td class="px-4 py-2">
+                            <img src="<?= htmlspecialchars($row['imagen']) ?>" alt="imagen" class="w-10 h-10 object-cover rounded shadow">
+                        </td>
+
                         <td class="px-4 py-2">
                             <div class="flex space-x-2">
-                                <button onclick="editTratamiento(<?= htmlspecialchars(json_encode($row)) ?>)" 
+                                <button onclick='editTratamiento(<?= json_encode($row, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>)' 
                                         class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700">
                                     Modificar
                                 </button>
@@ -72,22 +97,42 @@ $result = mysqli_query($conn, $sql);
             </div>
             <form id="editForm" class="space-y-4">
                 <input type="hidden" id="editId" name="id">
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
                     <input type="text" id="editNombre" name="nombre" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                 </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Descripción</label>
                     <textarea id="editDescripcion" name="descripcion" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
                 </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Duración (minutos)</label>
                     <input type="number" id="editDuracion" name="duracion" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                 </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Precio (€)</label>
                     <input type="number" step="0.01" id="editPrecio" name="precio" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                 </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Icono (SVG o clase)</label>
+                    <input type="text" id="editIcon" name="icon" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Beneficios (JSON o lista)</label>
+                    <textarea id="editBeneficios" name="beneficios" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Ruta de la imagen</label>
+                    <input type="text" id="editImagen" name="imagen" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                </div>
+
                 <div class="flex justify-end space-x-3">
                     <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700">
                         Cancelar
@@ -128,7 +173,9 @@ function editTratamiento(tratamiento) {
     document.getElementById('editDescripcion').value = tratamiento.descripcion;
     document.getElementById('editDuracion').value = tratamiento.duracion;
     document.getElementById('editPrecio').value = tratamiento.precio;
-    
+    document.getElementById('editIcon').value = tratamiento.icon || '';
+    document.getElementById('editBeneficios').value = tratamiento.beneficios || '';
+    document.getElementById('editImagen').value = tratamiento.imagen || '';
     document.getElementById('editModal').classList.remove('hidden');
 }
 
@@ -142,12 +189,28 @@ document.getElementById('editForm').addEventListener('submit', function(e) {
     
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
-    
-    // Aquí puedes agregar la lógica para enviar los datos al servidor mediante AJAX
-    console.log('Actualizar tratamiento:', data);
-    
+
+    fetch('src/pages/admin/ajax/modificar_tratamiento.php', {
+        method: 'POST',
+        body: new URLSearchParams(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+        if (res.success) {
+            alert('Tratamiento actualizado correctamente.');
+            location.reload(); // O actualizar dinámicamente la fila
+        } else {
+            alert('Error al actualizar: ' + (res.error || 'desconocido'));
+        }
+    })
+    .catch(err => {
+        console.error('Error AJAX:', err);
+        alert('Error de conexión al actualizar tratamiento.');
+    });
+
     closeEditModal();
 });
+
 
 function deleteTratamiento(id) {
     if (confirm('¿Estás seguro de que deseas eliminar este tratamiento?')) {
@@ -162,4 +225,5 @@ document.getElementById('editModal').addEventListener('click', function(e) {
         closeEditModal();
     }
 });
+
 </script> 

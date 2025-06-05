@@ -1,5 +1,5 @@
-<section class="py-16 bg-gray-50 dark:bg-gray-900" id="donacionWrapper">
-<div class="max-w-md mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 text-center border dark:border-gray-700">
+<section class="py-16 bg-blue text-kinetic-900 dark:bg-gray-900" id="donacionWrapper">
+<div class="bg-card border-card max-w-md mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 text-center border dark:border-gray-700">
     <h2 class="text-2xl font-bold mb-2 text-kinetic-900 dark:text-white">Apoya ReflexioKineTP</h2>
     <p class="text-sm text-kinetic-700 dark:text-gray-300 mb-6">Tu donación contribuye a mejorar la atención, investigación y el movimiento personalizado.</p>
 
@@ -14,6 +14,13 @@
     <input type="number" id="donacionPersonalizada" min="0.5" step="0.5" placeholder="Otro importe (€)" class="mb-3 w-full px-3 py-2 border rounded dark:bg-gray-700 dark:text-white text-sm" />
 
     <input type="email" id="donacionEmail" placeholder="Tu email (opcional)" class="mb-4 w-full px-3 py-2 border rounded dark:bg-gray-700 dark:text-white text-sm" />
+    <label id="newsletterLabel" class="hidden flex items-center justify-start gap-2 px-3 py-2 mt-3 rounded-lg cursor-pointer mb-5">
+        <input type="checkbox" name="newsletter" id="newsletterCheckbox" class="accent-blue-600 w-5 h-5">
+        <span class="text-sm text-kinetic-700">Quiero recibir novedades por email</span>
+    </label>
+
+
+
 
     <div id="paypal-button-container" class="mb-4"></div>
 
@@ -60,14 +67,17 @@
         document.getElementById('mensajeDonacion').classList.remove('hidden');
 
         if (email) {
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('cantidad', monto);
+            const formData = new FormData();
+            const newsletterChecked = document.getElementById('newsletterCheckbox').checked;
 
-        fetch('/src/ajax/procesar_donacion.php', {
-            method: 'POST',
-            body: formData
-        }).catch(err => console.error('Error AJAX:', err));
+            formData.append('email', email);
+            formData.append('cantidad', monto);
+            formData.append('newsletter', newsletterChecked ? 1 : 0); // ← aquí se envía
+
+            fetch('/src/ajax/procesar_donacion.php', {
+                method: 'POST',
+                body: formData
+            }).catch(err => console.error('Error AJAX:', err));
         }
     });
     }
@@ -75,5 +85,20 @@
 
     // Inicializar visual
     actualizarVisual();
+    const emailInput = document.getElementById('donacionEmail');
+    const newsletterLabel = document.getElementById('newsletterLabel');
+
+    emailInput.addEventListener('input', function () {
+        const value = emailInput.value.trim();
+        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+        if (isValidEmail) {
+            newsletterLabel.classList.remove('hidden');
+        } else {
+            newsletterLabel.classList.add('hidden');
+            document.getElementById('newsletterCheckbox').checked = false;
+        }
+    });
+
 </script>
 </section>
