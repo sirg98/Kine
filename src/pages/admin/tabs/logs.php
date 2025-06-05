@@ -57,7 +57,7 @@ document.querySelectorAll('.log-btn').forEach(btn => {
         const filename = this.dataset.filename;
         const viewer = document.getElementById('logViewer');
         viewer.innerHTML = '<div class="text-center text-gray-400 mt-20 animate-pulse">Cargando...</div>';
-        fetch(`/src/pages/admin/logs/${filename}`)
+        fetch(`src/pages/admin/ajax/get_log.php?file=${filename}`)
             .then(r => {
                 if (!r.ok) throw new Error('No se pudo cargar el archivo');
                 return r.text();
