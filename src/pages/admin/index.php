@@ -49,6 +49,10 @@ function tabActive($name, $current) {
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                 <span>Nuevo Paciente</span>
             </a>
+            <a href="?tab=logs" class="px-4 py-2 rounded-lg font-medium transition <?= tabActive('logs', $tab) ?> flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                <span>Nuevo Paciente</span>
+            </a>
         </div>
         <!-- Contenido de la pestaña -->
         <div class="bg-card rounded-xl shadow p-6">

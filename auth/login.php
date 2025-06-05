@@ -1,5 +1,24 @@
 <?php
-// Handle login POST request
+$logDir = 'src/pages/admin/logs';
+$logFile = $logDir . '/admin.log';
+
+if (!is_dir($logDir)) {
+    mkdir($logDir, 0755, true);
+}
+
+function logAlerta($mensaje) {
+    global $logFile;
+    $fecha = date('Y-m-d H:i:s');
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $linea = "[$fecha][$ip] ALERTA: $mensaje" . PHP_EOL;
+    file_put_contents($logFile, $linea, FILE_APPEND);
+}
+if (!isset($_SESSION['login_fails'])) {
+    $_SESSION['login_fails'] = [];
+}
+
+$ip = $_SERVER['REMOTE_ADDR'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_POST['password'])) {
     $email = trim($_POST['email']);
     $pass = trim($_POST['password']);
@@ -23,14 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
             $_SESSION['tipo'] = $row['tipo'];
             $_SESSION['id'] = $row['id'];
 
-            if (isset($_POST['remember'])) {
-                $cookie_data = json_encode([
-                    'id' => $row['id'],
-                    'tipo' => $row['tipo']
-                ]);
-                setcookie('remember_me', base64_encode($cookie_data), time() + (86400 * 7), "/");
-            }
-
             // Redirigir según tipo
             switch ($row['tipo']) {
                 case 'admin':
@@ -47,10 +58,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email']) && isset($_P
                     exit;
             }
         } else {
+            // Fallo por contraseña incorrecta
+            $_SESSION['login_fails'][$ip] = ($_SESSION['login_fails'][$ip] ?? 0) + 1;
+            if ($_SESSION['login_fails'][$ip] >= 5) {
+                logAlerta("Múltiples intentos fallidos de login desde IP $ip para el usuario $email");
+            }
+
             header("Location: /login?error=contraseña");
             exit;
         }
     } else {
+        $_SESSION['login_fails'][$ip] = ($_SESSION['login_fails'][$ip] ?? 0) + 1;
+        if ($_SESSION['login_fails'][$ip] >= 5) {
+            logAlerta("Múltiples intentos fallidos de login desde IP $ip con email inexistente: $email");
+        }
         header("Location: /login?error=usuario");
         exit;
     }

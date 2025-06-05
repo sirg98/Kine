@@ -2,6 +2,21 @@
 $mensaje_enviado = false;
 $error_envio = '';
 
+$logDir = '../src/pages/admin/logs';
+$logFile = $logDir . '/admin.log';
+
+if (!is_dir($logDir)) {
+    mkdir($logDir, 0755, true);
+}
+
+function logError($mensaje) {
+    global $logFile;
+    $fecha = date('Y-m-d H:i:s');
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $linea = "[$fecha][$ip] ERROR: $mensaje" . PHP_EOL;
+    file_put_contents($logFile, $linea, FILE_APPEND);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verify Turnstile token
     $token = $_POST['cf-turnstile-response'] ?? '';
@@ -61,9 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mensaje_enviado = true;
             } catch (Exception $e) {
                 $error_envio = $e->getMessage();
+                logError("Fallo al enviar correo: $error_envio");
             }
         } else {
             $error_envio = 'Todos los campos obligatorios deben estar completos y el correo debe ser válido.';
+            logError('Faltan campos obligatorios o el correo no es válido.');
         }
     }
 }

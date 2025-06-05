@@ -9,7 +9,7 @@ function generarPasswordTemporal($longitud = 10) {
 }
 
 function logError($mensaje) {
-    $logDir = __DIR__ . '/../../../../logs';
+    $logDir = '/src/pages/admin/logs';
     if (!is_dir($logDir)) {
         mkdir($logDir, 0755, true);
     }
