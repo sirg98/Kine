@@ -85,10 +85,6 @@ $res = mysqli_query($conn, $sql) or die("Error en la consulta: " . mysqli_error(
                                                     class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-200">
                                                 Ver Detalles
                                             </button>
-                                            <a href="nuevo_informe.php?paciente_id=<?= $row['paciente_id'] ?>" 
-                                               class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 transition-colors duration-200">
-                                                Nuevo Informe
-                                            </a>
                                         </div>
                                     </div>
                                 </div>

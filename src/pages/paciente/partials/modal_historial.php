@@ -40,7 +40,7 @@ $historial_completo = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 <div class="relative">
                     <input type="text" 
                            id="searchHistorial" 
-                           class="w-full px-4 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-card rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-card text-kinetic-900 dark:text-gray-100 border-card"
                            placeholder="Buscar por tratamiento o terapeuta...">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                         <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,7 +57,7 @@ $historial_completo = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 <?php else: ?>
                     <?php foreach ($historial_completo as $sesion): ?>
                         <div class="card-item bg-card dark:bg-gray-700 rounded-lg shadow p-4 hover:shadow-md transition-shadow duration-200 border border-card">
-                            <div class="flex justify-between items-start">
+                            <div class="flex justify-between items-center">
                                 <div>
                                     <div class="text-lg font-semibold text-secondary">
                                         <?= date('d \d\e F, Y', strtotime($sesion['fecha'])) ?> - <?= date('H:i', strtotime($sesion['fecha'])) ?>
@@ -68,8 +68,8 @@ $historial_completo = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                         <p>Estado: 
                                             <span class="px-2 py-1 rounded-full text-xs font-semibold
                                                 <?= $sesion['estado'] === 'pendiente' ? 'bg-yellow-100 text-yellow-800' : 
-                                                   ($sesion['estado'] === 'completada' ? 'bg-green-100 text-green-800' : 
-                                                   'bg-red-100 text-red-800') ?>">
+                                                ($sesion['estado'] === 'completada' ? 'bg-green-100 text-green-800' : 
+                                                'bg-red-100 text-red-800') ?>">
                                                 <?= ucfirst($sesion['estado']) ?>
                                             </span>
                                         </p>
@@ -78,6 +78,16 @@ $historial_completo = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                         <?php endif; ?>
                                     </div>
                                 </div>
+
+                                <?php if ($sesion['estado'] === 'pendiente'): ?>
+                                    <div class="flex items-center ml-4">
+                                        <button 
+                                            class="cancelar-cita-btn bg-red-600 text-white hover:bg-red-700 font-medium text-sm px-4 py-2 rounded transition"
+                                            data-id="<?= $sesion['id'] ?>">
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -119,4 +129,32 @@ document.getElementById('searchHistorial').addEventListener('input', function(e)
         }
     });
 });
+
+// Manejar cancelación con confirmación y AJAX
+document.querySelectorAll('.cancelar-cita-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const citaId = btn.dataset.id;
+
+        if (confirm("¿Estás seguro de que deseas cancelar esta cita?")) {
+            fetch('/src/pages/paciente/ajax/cancelar_cita.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `cita_id=${encodeURIComponent(citaId)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    btn.closest('.card-item').querySelector('span').classList.remove('bg-yellow-100', 'text-yellow-800');
+                    btn.closest('.card-item').querySelector('span').classList.add('bg-red-100', 'text-red-800');
+                    btn.closest('.card-item').querySelector('span').textContent = 'Cancelada';
+                    btn.remove();
+                } else {
+                    alert(data.message || "Error al cancelar la cita.");
+                }
+            })
+            .catch(() => alert("Error de conexión con el servidor."));
+        }
+    });
+});
+
 </script> 

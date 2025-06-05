@@ -17,6 +17,36 @@ $apartados = [
 $paciente_id = $_GET['paciente_id'] ?? $_POST['paciente_id'] ?? '';
 $tratamiento_id = $_GET['tratamiento_id'] ?? $_POST['tratamiento_id'] ?? '';
 $cita_id = $_GET['cita_id'] ?? $_POST['cita_id'] ?? '';
+
+if (!empty($cita_id)) {
+    $stmt = $conn->prepare("SELECT estado FROM citas WHERE id = ?");
+    $stmt->bind_param('i', $cita_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $cita = $result->fetch_assoc();
+    function mostrarError($mensaje) {
+        echo "
+        <div class='min-h-screen flex flex-col items-center justify-center bg-blue px-4 text-center'>
+            <div class='bg-red-100 text-red-800 p-6 rounded shadow max-w-md w-full'>
+                <p class='text-lg font-semibold mb-4'>$mensaje</p>
+                <a href='javascript:history.back()' class='inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold transition'>
+                    Volver
+                </a>
+            </div>
+        </div>
+        ";
+        exit;
+    }
+    
+    if (!$cita) {
+        mostrarError("❌ La cita no existe.");
+    }
+    
+    if ($cita['estado'] === 'completada') {
+        mostrarError("⚠️ Esta cita ya ha sido completada. No se puede registrar otro informe.");
+    }
+}    
+
 $terapeuta_id = $_SESSION['id'];
 $msg = '';
 
@@ -40,6 +70,7 @@ if (
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('iiiss', $paciente_id, $terapeuta_id, $tratamiento_id, $contenido, $fecha);
     if ($stmt->execute()) {
+        $informe_id = $stmt->insert_id;
         // Si hay cita_id, marcar la cita como completada
         if (!empty($cita_id)) {
             $update = $conn->prepare("UPDATE citas SET estado='completada' WHERE id=?");
@@ -86,7 +117,8 @@ if (
         }
     
         // Mostrar mensaje al terapeuta
-        $msg = '<div class="bg-green-100 text-green-800 p-2 rounded mb-4">Informe guardado correctamente.</div>';
+        echo "<script>window.location.href = '/informe?id=$informe_id';</script>";
+        exit;
     } else {
         $msg = '<div class="bg-red-100 text-red-800 p-2 rounded mb-4">Error al guardar el informe: ' . htmlspecialchars($stmt->error) . '</div>';
     }

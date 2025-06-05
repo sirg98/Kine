@@ -18,7 +18,7 @@
             <form id="formNuevaCita" class="space-y-6">
                 <!-- DATOS DE LA CITA -->
                 <div class="space-y-4">
-                    <select name="tratamiento_id" required class="w-full border rounded px-3 py-2" id="tratamiento">
+                    <select name="tratamiento_id" required class="w-full border rounded px-3 py-2 bg-card text-kinetic-900 dark:text-gray-100 border-card" id="tratamiento">
                         <option value="">Selecciona tratamiento</option>
                         <?php foreach ($tratamientos as $t): ?>
                             <option value="<?= $t['id'] ?>" data-duracion="<?= $t['duracion'] ?>" data-precio="<?= $t['precio'] ?>">
@@ -27,23 +27,23 @@
                         <?php endforeach; ?>
                     </select>
 
-                    <select name="terapeuta_id" required class="w-full border rounded px-3 py-2">
+                    <select name="terapeuta_id" required class="w-full border rounded px-3 py-2 bg-card text-kinetic-900 dark:text-gray-100 border-card">
                         <option value="">Selecciona terapeuta</option>
                         <?php foreach ($terapeutas as $d): ?>
                             <option value="<?= $d['id'] ?>">Dr. <?= htmlspecialchars($d['apellidos'] . ', ' . $d['nombre']) ?></option>
                         <?php endforeach; ?>
                     </select>
 
-                    <input id="fecha" type="date" name="fecha" min="<?= date('Y-m-d') ?>" required class="w-full border rounded px-3 py-2">
+                    <input id="fecha" type="date" name="fecha" min="<?= date('Y-m-d') ?>" required class="w-full border rounded px-3 py-2 bg-card text-kinetic-900 dark:text-gray-100 border-card">
 
-                    <select id="hora" name="hora" required class="w-full border rounded px-3 py-2">
+                    <select id="hora" name="hora" required class="w-full border rounded px-3 py-2 bg-card text-kinetic-900 dark:text-gray-100 border-card">
                         <option value="">Seleccione una hora</option>
                     </select>
 
-                    <textarea name="motivo" rows="3" class="w-full border rounded px-3 py-2" placeholder="Motivo de la cita (opcional)"></textarea>
+                    <textarea name="motivo" rows="3" class="w-full border rounded px-3 py-2 bg-card text-kinetic-900 dark:text-gray-100 border-card" placeholder="Motivo de la cita (opcional)"></textarea>
                 </div>
 
-                <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded mt-4 border">
+                <div class="bg-card border-card p-4 rounded mt-4 border-card text-kinetic-900 dark:text-gray-100">
                     <p><strong>Duración:</strong> <span id="duracionCita">-</span> minutos</p>
                     <p><strong>Precio:</strong> €<span id="precioCita">0.00</span></p>
                 </div>

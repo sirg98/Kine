@@ -2,9 +2,8 @@
   <div class="container mx-auto px-4 py-10 grid md:grid-cols-4 gap-8">
     <div>
       <div class="flex items-center space-x-2 mb-2">
-        <svg class="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-        <span class="font-semibold text-lg text-kinetic-900">KineticCare</span>
       </div>
+      <img src="/src/assets/img/logo-rktp.webp" alt="ReflexioKineTP Logo" class="w-24 h-24">
       <p class="text-sm">Servicios profesionales de kinesiología enfocados en el bienestar holístico y la curación natural a través del movimiento.</p>
     </div>
     <div>

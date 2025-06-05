@@ -17,9 +17,10 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button class="px-4 py-1 rounded border border-kinetic-500 text-kinetic-500 font-semibold hover:bg-kinetic-100 transition">
-                    Reprogramar
-                </button>
+            <button onclick="cancelarCitaDesdeProxima(<?= $proxima_cita['id'] ?>)"
+                    class="px-4 py-1 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition">
+                Cancelar
+            </button>
                 <button onclick="verQRDesdeProxima(<?= $proxima_cita['id'] ?>)"
                     class="px-4 py-1 rounded border border-green-500 text-green-600 font-semibold hover:bg-green-100 transition">
                     Ver QR
@@ -106,4 +107,27 @@ function closeSuccessPanel() {
         document.body.style.overflow = 'auto';
     }, 300);
 }
+
+function cancelarCitaDesdeProxima(citaId) {
+    if (!confirm("¿Estás seguro de que deseas cancelar esta cita?")) return;
+
+    fetch('/src/pages/paciente/ajax/cancelar_cita.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `cita_id=${encodeURIComponent(citaId)}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert('✅ Cita cancelada con éxito.');
+            location.reload(); // o puedes ocultar la tarjeta si prefieres
+        } else {
+            alert('❌ Error: ' + (data.message || 'No se pudo cancelar la cita.'));
+        }
+    })
+    .catch(() => {
+        alert('⚠ Error de conexión al cancelar la cita.');
+    });
+}
+
 </script>

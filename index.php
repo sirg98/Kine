@@ -134,8 +134,8 @@ $page_description = $meta[$url]['description'] ?? 'Centro de terapias personaliz
     <meta property="og:description" content="<?= htmlspecialchars($page_description) ?>">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://<?= $_SERVER['HTTP_HOST'] ?>/<?= htmlspecialchars($url) ?>">
-    <meta property="og:image" content="https://reflexiokinetp.es/assets/img/logo-og.jpg">
-
+    <meta property="og:image" content="https://reflexiokinetp.es/assets/img/logo-rktp.webp">
+    <link rel="icon" type="image/png" href="/src/assets/img/logo-favicon.png">
     <link rel="canonical" href="https://<?= $_SERVER['HTTP_HOST'] ?>/<?= htmlspecialchars($url) ?>" />
     <script>
         (function(){
