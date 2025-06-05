@@ -15,10 +15,10 @@ $log_files = array_filter(scandir($logs_dir), function($f) use ($logs_dir) {
 }
 </style>
 
-<div class="flex h-[500px] w-full max-w-5xl overflow-hidden">
+<div class="flex flex-col md:flex-row w-full h-auto md:h-[500px] max-w-5xl mx-auto">
 
     <!-- Panel lateral -->
-    <div class="w-1/4 bg-gray-100 bg-card rounded-l-xl p-4 overflow-y-auto border-r border-card">
+    <div class="w-full md:w-1/4 bg-gray-100 bg-card rounded-t-xl md:rounded-l-xl md:rounded-tr-none p-4 overflow-y-auto border-b md:border-b-0 md:border-r border-card">
         <h3 class="text-lg font-semibold mb-4 text-kinetic-900 dark:text-gray-100">Archivos de Logs</h3>
         <ul id="logList" class="space-y-2">
             <?php foreach ($log_files as $file): ?>
@@ -34,7 +34,7 @@ $log_files = array_filter(scandir($logs_dir), function($f) use ($logs_dir) {
         </ul>
     </div>
     <!-- Área de visualización -->
-    <div class="flex-1 bg-white dark:bg-gray-900 rounded-r-xl p-6 overflow-y-auto border border-card relative">
+    <div class="w-full md:flex-1 bg-white dark:bg-gray-900 rounded-b-xl md:rounded-r-xl md:rounded-bl-none p-6 overflow-y-auto border border-card">
         <!-- Filtros -->
         <div class="mb-4 flex flex-col md:flex-row items-start md:items-center gap-4">
             <input type="text" id="logSearchInput" placeholder="Buscar texto..." class="px-3 py-2 rounded border w-full md:w-1/3 dark:bg-gray-800 dark:text-white" />

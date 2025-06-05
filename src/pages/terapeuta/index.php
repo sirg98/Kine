@@ -22,6 +22,16 @@ if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'terapeuta') {
             LIMIT 3";
     $result = mysqli_query($conn, $sql);
     $proximas_citas = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// Pacientes activos (tipo = paciente y no eliminados)
+$res = mysqli_query($conn, "SELECT COUNT(*) AS total FROM usuarios WHERE tipo = 'paciente' AND eliminado = 0");
+$pacientes_activos = mysqli_fetch_assoc($res)['total'] ?? 0;
+
+// Citas este mes para este terapeuta
+$mes_actual = date('Y-m-01');
+$res = mysqli_query($conn, "SELECT COUNT(*) AS total FROM citas WHERE terapeuta_id = $terapeuta_id AND fecha >= '$mes_actual'");
+$sesiones_mes = mysqli_fetch_assoc($res)['total'] ?? 0;
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -98,26 +108,29 @@ if (!isset($_SESSION['id']) || $_SESSION['tipo'] !== 'terapeuta') {
             </div>
         </div>
         <!-- Estadísticas -->
-        <div>
-            <div class="font-semibold text-lg text-kinetic-900 mb-4">Estadísticas</div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-card text-secondary border border-card rounded-xl p-6 flex flex-col">
-                    <div class="font-semibold text-kinetic-900 mb-1">Pacientes Activos</div>
-                    <div class="text-3xl font-bold text-kinetic-900 mb-1">24</div>
-                    <div class="text-xs text-kinetic-700">+3 desde el mes pasado</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-card text-secondary border border-card rounded-xl p-6 flex flex-col">
+                <div class="font-semibold text-kinetic-900 mb-1">Pacientes Activos</div>
+                <div class="text-3xl font-bold text-kinetic-900 mb-1"><?= $pacientes_activos ?></div>
+                <div class="text-xs text-kinetic-700">Actualmente en tratamiento</div>
+            </div>
+            <div class="bg-card text-secondary border border-card rounded-xl p-6 flex flex-col">
+                <div class="font-semibold text-kinetic-900 mb-1">Sesiones Este Mes</div>
+                <div class="text-3xl font-bold text-kinetic-900 mb-1"><?= $sesiones_mes ?></div>
+                <div class="text-xs text-kinetic-700">Desde el 1 de <?= date('F') ?></div>
+            </div>
+            <div class="bg-card text-secondary border border-card rounded-xl p-6 flex flex-col">
+                <div class="font-semibold text-kinetic-900 mb-1">Usuarios Dados de Alta</div>
+                <div class="text-3xl font-bold text-kinetic-900 mb-1">
+                    <?php
+                    $res = mysqli_query($conn, "SELECT COUNT(*) AS total FROM usuarios WHERE eliminado = 1");
+                    echo mysqli_fetch_assoc($res)['total'] ?? 0;
+                    ?>
                 </div>
-                <div class="bg-card text-secondary border border-card rounded-xl p-6 flex flex-col">
-                    <div class="font-semibold text-kinetic-900 mb-1">Sesiones Este Mes</div>
-                    <div class="text-3xl font-bold text-kinetic-900 mb-1">42</div>
-                    <div class="text-xs text-kinetic-700">+8 desde el mes pasado</div>
-                </div>
-                <div class="bg-card text-secondary border border-card rounded-xl p-6 flex flex-col">
-                    <div class="font-semibold text-kinetic-900 mb-1">Tasa de Recuperación</div>
-                    <div class="text-3xl font-bold text-kinetic-900 mb-1">87%</div>
-                    <div class="text-xs text-kinetic-700">+2% desde el mes pasado</div>
-                </div>
+                <div class="text-xs text-kinetic-700">Pacientes dados de alta</div>
             </div>
         </div>
+
     </main>
     <!-- Botón flotante de chat -->
     <button onclick="openModalChatTerapeuta()" id="chatTerapeutaBtn" class="fixed bottom-6 right-6 z-50 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg w-16 h-16 flex items-center justify-center text-3xl focus:outline-none focus:ring-2 focus:ring-blue-400">

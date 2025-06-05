@@ -24,3 +24,9 @@ Options -Indexes
 # Denegar acceso a los logs
 RewriteCond %{REQUEST_URI} \.log$ [NC]
 RewriteRule .* /error.php [L,R=302]
+
+# Bloquear acceso directo a archivos .env
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
